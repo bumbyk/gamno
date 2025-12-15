@@ -144,16 +144,15 @@
       justify-content:center;
     }
 
-    /* SECTION: PHANTASMAGORIA (пустая, без Spotify) */
+    /* SUBCARD */
     .subcard{
-      width:min(760px,100%);
+      width:min(900px,100%);
       padding:22px;
       border-radius:22px;
       background:rgba(255,255,255,.03);
       border:1px solid rgba(0,255,255,.25);
       box-shadow:0 0 26px rgba(0,255,255,.14);
       backdrop-filter:blur(10px);
-      text-align:left;
     }
     .subcard h2{
       font-size:22px;
@@ -163,11 +162,7 @@
       margin-bottom:10px;
       text-transform:uppercase;
     }
-    .subcard .muted{
-      opacity:.65;
-      color:#ffd6ef;
-      line-height:1.5;
-    }
+    .muted{opacity:.65;color:#ffd6ef;line-height:1.5}
 
     /* VIDEO OVERLAY */
     #ov{
@@ -205,6 +200,52 @@
       color:#ff9fe8;
     }
 
+    /* TETRIS */
+    .tetris{
+      display:grid;
+      grid-template-columns: 1fr 260px;
+      gap:18px;
+      align-items:start;
+    }
+    canvas{
+      width:100%;
+      max-width:520px;
+      height:auto;
+      aspect-ratio: 10/20;
+      background:rgba(0,0,0,.35);
+      border-radius:16px;
+      border:1px solid rgba(255,0,170,.35);
+      box-shadow:0 0 40px rgba(255,47,191,.18);
+      display:block;
+    }
+    .panel{
+      padding:16px;
+      border-radius:16px;
+      background:rgba(0,0,0,.25);
+      border:1px solid rgba(0,255,255,.2);
+    }
+    .stat{
+      display:flex;
+      justify-content:space-between;
+      padding:8px 10px;
+      border-radius:12px;
+      background:rgba(255,255,255,.03);
+      margin-bottom:10px;
+      font-weight:700;
+    }
+    .kbd{opacity:.75;font-size:13px;line-height:1.5;margin-top:10px}
+    .panel .btn{
+      width:100%;
+      margin-top:10px;
+      box-shadow:none;
+    }
+    .panel .btn:hover{transform:none}
+
+    @media (max-width:900px){
+      .tetris{grid-template-columns:1fr}
+      canvas{max-width:100%}
+    }
+
     /* MOBILE */
     @media (max-width:600px){
       .card{padding:32px 26px}
@@ -230,6 +271,7 @@
       <div class="nav-links">
         <a href="#home">главная</a>
         <a href="#phantasmagoria">phantasmagoria</a>
+        <a href="#tetris">tetris</a>
       </div>
     </div>
   </div>
@@ -241,24 +283,57 @@
         <div class="card">
           <img class="logo" src="logo-42.png" alt="42 logo">
           <h1>гамно</h1>
-          <p>сайт официального гамна</p>
+          <p>киберпанк версия официального гамна</p>
 
           <div class="btns">
             <button class="btn" id="open">▶ смотреть</button>
-            <a class="btn secondary" href="#phantasmagoria">phantasmagoria</a>
+            <a class="btn secondary" href="#tetris">играть в тетрис</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- PHANTASMAGORIA (без Spotify) -->
+    <!-- PHANTASMAGORIA -->
     <section class="section" id="phantasmagoria">
       <div class="grid">
         <div class="subcard">
           <h2>PHANTASMAGORIA</h2>
           <div class="muted">
-            тут будет раздел. (пока без спотифая, чтобы всё работало на пк и мобиле одинаково)
+            раздел для вайба. позже можно вернуть спотифай (с кнопкой “открыть”, чтобы на пк не ломалось).
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TETRIS -->
+    <section class="section" id="tetris">
+      <div class="grid">
+        <div class="subcard">
+          <h2>TETRIS</h2>
+
+          <div class="tetris">
+            <canvas id="game" width="240" height="480"></canvas>
+
+            <div class="panel">
+              <div class="stat"><span>очки</span><span id="score">0</span></div>
+              <div class="stat"><span>линии</span><span id="lines">0</span></div>
+              <div class="stat"><span>уровень</span><span id="level">1</span></div>
+
+              <button class="btn" id="btnStart">▶ старт / рестарт</button>
+              <button class="btn secondary" id="btnPause" style="width:100%;margin-top:10px">⏸ пауза (P)</button>
+
+              <div class="kbd">
+                управление:<br>
+                ⬅️ ➡️ — движение<br>
+                ⬆️ — поворот<br>
+                ⬇️ — ускорить<br>
+                space — дроп<br>
+                P — пауза<br>
+                R — рестарт
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -274,6 +349,7 @@
   </div>
 
   <script>
+    // ===== VIDEO OVERLAY =====
     const VIDEO_ID = "LnsH7x6h6zE";
     const ov = document.getElementById("ov");
     const yt = document.getElementById("yt");
@@ -292,6 +368,262 @@
     document.addEventListener("keydown", e => {
       if (e.key === "Escape") close();
     });
+
+    // ===== TETRIS =====
+    const canvas = document.getElementById("game");
+    const ctx = canvas.getContext("2d");
+
+    const W = 10, H = 20;
+    const BS = 24; // block size in canvas pixels (10*24=240, 20*24=480)
+
+    const scoreEl = document.getElementById("score");
+    const linesEl = document.getElementById("lines");
+    const levelEl = document.getElementById("level");
+
+    const COLORS = [
+      "rgba(0,0,0,0)",
+      "#ff2fbf", // I
+      "#00ffff", // J
+      "#ff9fe8", // L
+      "#9b5cff", // O
+      "#00ffa6", // S
+      "#ffd1f0", // T
+      "#ff6fe3"  // Z
+    ];
+
+    const SHAPES = {
+      I: [[1,1,1,1]],
+      J: [[2,0,0],[2,2,2]],
+      L: [[0,0,3],[3,3,3]],
+      O: [[4,4],[4,4]],
+      S: [[0,5,5],[5,5,0]],
+      T: [[0,6,0],[6,6,6]],
+      Z: [[7,7,0],[0,7,7]]
+    };
+
+    function makeField(){
+      return Array.from({length:H},()=>Array(W).fill(0));
+    }
+
+    function rotate(mat){
+      // clockwise rotate
+      const rows = mat.length, cols = mat[0].length;
+      const out = Array.from({length:cols},()=>Array(rows).fill(0));
+      for(let y=0;y<rows;y++){
+        for(let x=0;x<cols;x++){
+          out[x][rows-1-y] = mat[y][x];
+        }
+      }
+      return out;
+    }
+
+    function collides(field, piece, px, py){
+      for(let y=0;y<piece.length;y++){
+        for(let x=0;x<piece[y].length;x++){
+          const v = piece[y][x];
+          if(!v) continue;
+          const fx = px + x, fy = py + y;
+          if(fx < 0 || fx >= W || fy >= H) return true;
+          if(fy >= 0 && field[fy][fx]) return true;
+        }
+      }
+      return false;
+    }
+
+    function merge(field, piece, px, py){
+      for(let y=0;y<piece.length;y++){
+        for(let x=0;x<piece[y].length;x++){
+          const v = piece[y][x];
+          if(!v) continue;
+          const fx = px + x, fy = py + y;
+          if(fy >= 0) field[fy][fx] = v;
+        }
+      }
+    }
+
+    function clearLines(field){
+      let cleared = 0;
+      for(let y=H-1;y>=0;y--){
+        if(field[y].every(v=>v!==0)){
+          field.splice(y,1);
+          field.unshift(Array(W).fill(0));
+          cleared++;
+          y++;
+        }
+      }
+      return cleared;
+    }
+
+    function draw(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+
+      // field
+      for(let y=0;y<H;y++){
+        for(let x=0;x<W;x++){
+          const v = field[y][x];
+          if(v){
+            ctx.fillStyle = COLORS[v];
+            ctx.fillRect(x*BS, y*BS, BS-1, BS-1);
+          }
+        }
+      }
+
+      // piece
+      for(let y=0;y<piece.length;y++){
+        for(let x=0;x<piece[y].length;x++){
+          const v = piece[y][x];
+          if(v){
+            ctx.fillStyle = COLORS[v];
+            ctx.fillRect((px+x)*BS, (py+y)*BS, BS-1, BS-1);
+          }
+        }
+      }
+    }
+
+    function randomPiece(){
+      const keys = Object.keys(SHAPES);
+      const k = keys[Math.floor(Math.random()*keys.length)];
+      // deep copy
+      const m = SHAPES[k].map(r=>r.slice());
+      return m;
+    }
+
+    function reset(){
+      field = makeField();
+      piece = randomPiece();
+      px = Math.floor((W - piece[0].length)/2);
+      py = -2;
+      score = 0; lines = 0; level = 1;
+      dropMs = 700;
+      over = false;
+      paused = false;
+      updateUI();
+    }
+
+    function updateUI(){
+      scoreEl.textContent = score;
+      linesEl.textContent = lines;
+      levelEl.textContent = level;
+    }
+
+    function spawn(){
+      piece = randomPiece();
+      px = Math.floor((W - piece[0].length)/2);
+      py = -2;
+      if(collides(field, piece, px, py)){
+        over = true;
+      }
+    }
+
+    function step(){
+      if(over || paused) return;
+      if(!collides(field, piece, px, py+1)){
+        py++;
+      } else {
+        merge(field, piece, px, py);
+        const c = clearLines(field);
+        if(c){
+          const add = [0,100,300,500,800][c] || (c*250);
+          score += add * level;
+          lines += c;
+          const newLevel = Math.floor(lines/10) + 1;
+          if(newLevel !== level){
+            level = newLevel;
+            dropMs = Math.max(120, 700 - (level-1)*60);
+          }
+          updateUI();
+        }
+        spawn();
+      }
+    }
+
+    function hardDrop(){
+      if(over || paused) return;
+      while(!collides(field, piece, px, py+1)) py++;
+      step();
+    }
+
+    function move(dx){
+      if(over || paused) return;
+      if(!collides(field, piece, px+dx, py)) px += dx;
+    }
+
+    function rot(){
+      if(over || paused) return;
+      const r = rotate(piece);
+      // simple wall-kick
+      const kicks = [0,-1,1,-2,2];
+      for(const k of kicks){
+        if(!collides(field, r, px+k, py)){
+          piece = r;
+          px += k;
+          return;
+        }
+      }
+    }
+
+    let field, piece, px, py;
+    let score=0, lines=0, level=1;
+    let dropMs=700;
+    let last=0;
+    let over=false;
+    let paused=false;
+    let running=false;
+
+    function loop(ts){
+      if(!running) return;
+      if(!last) last = ts;
+      const dt = ts - last;
+
+      if(!over && !paused){
+        acc += dt;
+        while(acc >= dropMs){
+          step();
+          acc -= dropMs;
+        }
+      }
+
+      draw();
+      last = ts;
+      requestAnimationFrame(loop);
+    }
+
+    let acc = 0;
+
+    function start(){
+      reset();
+      running = true;
+      last = 0;
+      acc = 0;
+      requestAnimationFrame(loop);
+    }
+
+    function togglePause(){
+      if(over) return;
+      paused = !paused;
+    }
+
+    document.getElementById("btnStart").onclick = start;
+    document.getElementById("btnPause").onclick = togglePause;
+
+    document.addEventListener("keydown", (e)=>{
+      // не мешать когда оверлей видео открыт
+      if(ov.style.display === "flex") return;
+
+      if(e.code === "KeyR") start();
+      if(e.code === "KeyP") togglePause();
+
+      if(!running) return;
+
+      if(e.code === "ArrowLeft"){ e.preventDefault(); move(-1); }
+      if(e.code === "ArrowRight"){ e.preventDefault(); move(1); }
+      if(e.code === "ArrowDown"){ e.preventDefault(); step(); }
+      if(e.code === "ArrowUp"){ e.preventDefault(); rot(); }
+      if(e.code === "Space"){ e.preventDefault(); hardDrop(); }
+    });
+
+    // стартуем, но можно убрать если не хочешь автозапуск
+    start();
   </script>
 </body>
 </html>

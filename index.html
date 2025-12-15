@@ -19,10 +19,16 @@
       background:#fff;color:#000;font-weight:700;transition:.2s}
     .btn:hover{transform:translateY(-2px);
       box-shadow:0 10px 25px rgba(255,255,255,.25)}
-    #ov{position:fixed;inset:0;display:none;align-items:center;
-      justify-content:center;background:rgba(0,0,0,.85);z-index:999}
-    #ov iframe{width:min(900px,90vw);aspect-ratio:16/9;
-      border:0;border-radius:14px}
+
+    #ov{position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+      background:rgba(0,0,0,.85);z-index:999;padding:24px}
+    .wrap{display:flex;gap:20px;align-items:center;justify-content:center;flex-wrap:wrap}
+    #ov iframe{width:min(900px,90vw);aspect-ratio:16/9;border:0;border-radius:14px}
+    #ov img{width:160px;max-width:40vw;border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:0 12px 30px rgba(0,0,0,.6)}
+    .hint{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+      font-size:13px;opacity:.55}
   </style>
 </head>
 <body>
@@ -32,10 +38,12 @@
     <button class="btn" id="open">смотреть</button>
   </div>
 
-  <div id="ov">
-    <iframe id="yt"
-      allow="autoplay; encrypted-media"
-      allowfullscreen></iframe>
+  <div id="ov" aria-hidden="true">
+    <div class="wrap">
+      <iframe id="yt" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <img src="dance.gif" alt="dance gif">
+    </div>
+    <div class="hint">закрыть: клик по фону или esc</div>
   </div>
 
   <script>
@@ -46,17 +54,17 @@
     document.getElementById("open").onclick = () => {
       yt.src = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1`;
       ov.style.display = "flex";
+      ov.setAttribute("aria-hidden","false");
     };
 
     const close = () => {
       ov.style.display = "none";
+      ov.setAttribute("aria-hidden","true");
       yt.src = "";
     };
 
-    ov.onclick = e => { if (e.target === ov) close(); };
-    document.addEventListener("keydown", e => {
-      if (e.key === "Escape") close();
-    });
+    ov.onclick = (e) => { if (e.target === ov) close(); };
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
   </script>
 </body>
 </html>

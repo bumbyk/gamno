@@ -4,41 +4,154 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>гамно</title>
+
   <style>
     *{box-sizing:border-box;margin:0;font-family:Arial,Helvetica,sans-serif}
-    body{min-height:100vh;display:grid;place-items:center;color:#eee;
-      background:radial-gradient(circle at top,#1a1a1a,#0b0b0b)}
-    .card{padding:48px 56px;text-align:center;border-radius:20px;
-      background:rgba(255,255,255,.03);
-      border:1px solid rgba(255,255,255,.08);
-      box-shadow:0 20px 60px rgba(0,0,0,.6);
-      backdrop-filter:blur(10px)}
-    h1{font-size:64px;letter-spacing:2px;margin-bottom:12px}
-    p{opacity:.6;margin-bottom:28px}
-    .btn{border:0;cursor:pointer;padding:12px 28px;border-radius:999px;
-      background:#fff;color:#000;font-weight:700;transition:.2s}
-    .btn:hover{transform:translateY(-2px);
-      box-shadow:0 10px 25px rgba(255,255,255,.25)}
 
-    #ov{position:fixed;inset:0;display:none;align-items:center;justify-content:center;
-      background:rgba(0,0,0,.85);z-index:999;padding:24px}
-    .wrap{display:flex;gap:20px;align-items:center;justify-content:center;flex-wrap:wrap}
-    #ov iframe{width:min(900px,90vw);aspect-ratio:16/9;border:0;border-radius:14px}
-    #ov img{width:160px;max-width:40vw;border-radius:14px;
-      border:1px solid rgba(255,255,255,.12);
-      box-shadow:0 12px 30px rgba(0,0,0,.6)}
-    .hint{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
-      font-size:13px;opacity:.55}
+    body{
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      color:#ffe6f2;
+      background:
+        radial-gradient(1200px 500px at 50% -10%, rgba(255,0,170,.18), transparent 40%),
+        radial-gradient(800px 400px at 10% 110%, rgba(0,255,255,.12), transparent 40%),
+        #06030a;
+    }
+
+    .card{
+      padding:52px 64px;
+      text-align:center;
+      border-radius:22px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,0,170,.35);
+      box-shadow:
+        0 0 40px rgba(255,0,170,.25),
+        0 0 120px rgba(255,0,170,.15),
+        inset 0 0 30px rgba(255,255,255,.05);
+      backdrop-filter:blur(12px);
+    }
+
+    h1{
+      font-size:68px;
+      letter-spacing:3px;
+      margin-bottom:14px;
+      color:#ff4fd8;
+      text-shadow:
+        0 0 6px #ff4fd8,
+        0 0 16px #ff4fd8,
+        0 0 40px #ff2fbf,
+        0 0 90px rgba(255,47,191,.8);
+      animation: neon 2.2s ease-in-out infinite;
+    }
+
+    @keyframes neon{
+      0%,100%{
+        filter:brightness(1);
+        text-shadow:
+          0 0 6px #ff4fd8,
+          0 0 16px #ff4fd8,
+          0 0 40px #ff2fbf,
+          0 0 90px rgba(255,47,191,.8);
+      }
+      50%{
+        filter:brightness(1.25);
+        text-shadow:
+          0 0 10px #ff7ae6,
+          0 0 28px #ff4fd8,
+          0 0 70px #ff2fbf,
+          0 0 140px rgba(255,47,191,1);
+      }
+    }
+
+    p{
+      opacity:.75;
+      margin-bottom:30px;
+      color:#ffd6ef;
+    }
+
+    .btn{
+      border:0;
+      cursor:pointer;
+      padding:14px 34px;
+      border-radius:999px;
+      background:linear-gradient(90deg,#ff2fbf,#ff6fe3);
+      color:#160010;
+      font-weight:800;
+      letter-spacing:1px;
+      box-shadow:
+        0 0 14px rgba(255,47,191,.8),
+        0 0 40px rgba(255,47,191,.6);
+      transition:.2s;
+    }
+
+    .btn:hover{
+      transform:translateY(-2px) scale(1.02);
+      box-shadow:
+        0 0 22px rgba(255,47,191,1),
+        0 0 70px rgba(255,47,191,.9);
+    }
+
+    /* overlay */
+    #ov{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:rgba(5,0,8,.88);
+      z-index:999;
+      padding:24px;
+    }
+
+    .wrap{
+      display:flex;
+      gap:22px;
+      align-items:center;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+
+    #ov iframe{
+      width:min(900px,92vw);
+      aspect-ratio:16/9;
+      border:2px solid rgba(255,0,170,.6);
+      border-radius:16px;
+      box-shadow:
+        0 0 30px rgba(255,0,170,.8),
+        0 0 80px rgba(255,0,170,.6);
+    }
+
+    #ov img{
+      width:170px;
+      max-width:45vw;
+      border-radius:16px;
+      border:2px solid rgba(0,255,255,.5);
+      box-shadow:
+        0 0 25px rgba(0,255,255,.7),
+        0 0 70px rgba(0,255,255,.5);
+    }
+
+    .hint{
+      position:fixed;
+      bottom:16px;
+      left:50%;
+      transform:translateX(-50%);
+      font-size:13px;
+      opacity:.6;
+      color:#ff9fe8;
+    }
   </style>
 </head>
+
 <body>
   <div class="card">
     <h1>гамно</h1>
-    <p>официальный сайт гамна</p>
-    <button class="btn" id="open">смотреть</button>
+    <p>сайт официального гамна</p>
+    <button class="btn" id="open">▶ смотреть</button>
   </div>
 
-  <div id="ov" aria-hidden="true">
+  <div id="ov">
     <div class="wrap">
       <iframe id="yt" allow="autoplay; encrypted-media" allowfullscreen></iframe>
       <img src="dance.gif" alt="dance gif">
@@ -54,17 +167,17 @@
     document.getElementById("open").onclick = () => {
       yt.src = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1`;
       ov.style.display = "flex";
-      ov.setAttribute("aria-hidden","false");
     };
 
     const close = () => {
       ov.style.display = "none";
-      ov.setAttribute("aria-hidden","true");
       yt.src = "";
     };
 
-    ov.onclick = (e) => { if (e.target === ov) close(); };
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+    ov.onclick = e => { if (e.target === ov) close(); };
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") close();
+    });
   </script>
 </body>
 </html>

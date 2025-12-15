@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>гамно</title>
 
+  <!-- favicon (опционально, если загрузишь favicon.png) -->
+  <!-- <link rel="icon" type="image/png" href="favicon.png"> -->
+
   <style>
     *{box-sizing:border-box;margin:0;font-family:Arial,Helvetica,sans-serif}
 
@@ -30,6 +33,17 @@
         0 0 120px rgba(255,0,170,.15),
         inset 0 0 30px rgba(255,255,255,.05);
       backdrop-filter:blur(12px);
+    }
+
+    /* LOGO 42 */
+    .logo{
+      width:96px;
+      height:auto;
+      display:block;
+      margin:0 auto 12px;
+      filter:
+        drop-shadow(0 0 12px rgba(255,47,191,.9))
+        drop-shadow(0 0 36px rgba(255,47,191,.6));
     }
 
     h1{
@@ -141,11 +155,24 @@
       opacity:.6;
       color:#ff9fe8;
     }
+
+    /* 📱 mobile */
+    @media (max-width:600px){
+      .card{padding:32px 26px;width:90%}
+      .logo{width:72px}
+      h1{font-size:44px}
+      p{font-size:14px}
+      .btn{padding:14px 28px;font-size:15px}
+      .wrap{flex-direction:column}
+      #ov img{width:120px}
+      .hint{font-size:11px;bottom:10px}
+    }
   </style>
 </head>
 
 <body>
   <div class="card">
+    <img class="logo" src="logo-42.png" alt="42 logo">
     <h1>гамно</h1>
     <p>сайт официального гамна</p>
     <button class="btn" id="open">▶ смотреть</button>

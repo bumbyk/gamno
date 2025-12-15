@@ -7,11 +7,10 @@
 
   <style>
     *{box-sizing:border-box;margin:0;font-family:Arial,Helvetica,sans-serif}
+    html{scroll-behavior:smooth}
 
     body{
       min-height:100vh;
-      display:grid;
-      place-items:center;
       color:#ffe6f2;
       background:
         radial-gradient(1200px 500px at 50% -10%, rgba(255,0,170,.18), transparent 40%),
@@ -19,7 +18,59 @@
         #06030a;
     }
 
+    /* NAV */
+    .nav{
+      position:sticky; top:0; z-index:1000;
+      background:rgba(6,3,10,.55);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(255,0,170,.25);
+    }
+    .nav-inner{
+      max-width:1100px;
+      margin:0 auto;
+      padding:10px 14px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      text-decoration:none; color:#ffd6ef;
+      font-weight:900; letter-spacing:1px;
+    }
+    .brand img{
+      width:28px;
+      filter: drop-shadow(0 0 10px rgba(255,47,191,.8));
+    }
+    .nav-links{
+      margin-left:auto;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .nav-links a{
+      text-decoration:none;
+      color:#ffd6ef;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,0,170,.25);
+      background:rgba(255,255,255,.03);
+      transition:.2s;
+      font-size:14px;
+    }
+    .nav-links a:hover{
+      transform:translateY(-1px);
+      border-color:rgba(255,0,170,.55);
+      box-shadow:0 0 18px rgba(255,47,191,.25);
+    }
+
+    /* LAYOUT */
+    .container{max-width:1100px;margin:0 auto;padding:26px 14px 60px}
+    .section{padding:18px 0}
+    .grid{display:grid;gap:18px;justify-items:center}
+
     .card{
+      width:min(760px,100%);
       padding:52px 64px;
       text-align:center;
       border-radius:22px;
@@ -34,9 +85,8 @@
 
     .logo{
       width:96px;
-      height:auto;
-      display:block;
       margin:0 auto 12px;
+      display:block;
       filter:
         drop-shadow(0 0 12px rgba(255,47,191,.9))
         drop-shadow(0 0 36px rgba(255,47,191,.6));
@@ -55,94 +105,78 @@
       animation: neon 2.2s ease-in-out infinite;
     }
     @keyframes neon{
-      0%,100%{
-        filter:brightness(1);
-        text-shadow:
-          0 0 6px #ff4fd8,
-          0 0 16px #ff4fd8,
-          0 0 40px #ff2fbf,
-          0 0 90px rgba(255,47,191,.8);
-      }
-      50%{
-        filter:brightness(1.25);
-        text-shadow:
-          0 0 10px #ff7ae6,
-          0 0 28px #ff4fd8,
-          0 0 70px #ff2fbf,
-          0 0 140px rgba(255,47,191,1);
-      }
+      0%,100%{filter:brightness(1)}
+      50%{filter:brightness(1.25)}
     }
 
-    p{
-      opacity:.75;
-      margin-bottom:26px;
-      color:#ffd6ef;
-    }
+    p{opacity:.75;margin-bottom:26px;color:#ffd6ef}
 
+    .btns{
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
     .btn{
-      border:0;
-      cursor:pointer;
+      border:0; cursor:pointer;
       padding:14px 34px;
       border-radius:999px;
       background:linear-gradient(90deg,#ff2fbf,#ff6fe3);
       color:#160010;
       font-weight:800;
       letter-spacing:1px;
-      box-shadow:
-        0 0 14px rgba(255,47,191,.8),
-        0 0 40px rgba(255,47,191,.6);
+      box-shadow:0 0 14px rgba(255,47,191,.8), 0 0 40px rgba(255,47,191,.6);
       transition:.2s;
     }
     .btn:hover{
       transform:translateY(-2px) scale(1.02);
-      box-shadow:
-        0 0 22px rgba(255,47,191,1),
-        0 0 70px rgba(255,47,191,.9);
+      box-shadow:0 0 22px rgba(255,47,191,1), 0 0 70px rgba(255,47,191,.9);
+    }
+    .btn.secondary{
+      background:rgba(255,255,255,.05);
+      color:#ffd6ef;
+      border:1px solid rgba(255,0,170,.35);
+      box-shadow:none;
     }
 
-    /* counter */
-    .counter{
-      margin-top:18px;
-      font-size:13px;
-      opacity:.6;
+    /* PHANTASMAGORIA */
+    .subcard{
+      width:min(760px,100%);
+      padding:22px;
+      border-radius:22px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(0,255,255,.25);
+      box-shadow:0 0 26px rgba(0,255,255,.14);
+      backdrop-filter:blur(10px);
+    }
+    .subcard h2{
+      font-size:22px;
+      letter-spacing:2px;
       color:#ff9fe8;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      user-select:none;
+      text-shadow:0 0 18px rgba(255,47,191,.3);
+      margin-bottom:14px;
+      text-transform:uppercase;
     }
-    .eye{
-      width:16px;
-      height:16px;
-      filter: drop-shadow(0 0 10px rgba(255,47,191,.7));
-      opacity:.95;
-    }
-    .count{
-      font-weight:800;
-      color:#ffd1f0;
-      text-shadow: 0 0 18px rgba(255,47,191,.45);
-      min-width: 3ch;
-      display:inline-block;
-      text-align:left;
+    .spotify{
+      width:100%;
+      height:352px;
+      border:0;
+      border-radius:14px;
+      box-shadow:0 0 30px rgba(255,47,191,.15);
     }
 
-    /* overlay */
+    /* VIDEO OVERLAY */
     #ov{
-      position:fixed;
-      inset:0;
+      position:fixed; inset:0;
       display:none;
-      align-items:center;
-      justify-content:center;
+      align-items:center; justify-content:center;
       background:rgba(5,0,8,.88);
       z-index:999;
       padding:24px;
     }
     .wrap{
-      display:flex;
-      gap:22px;
-      align-items:center;
-      justify-content:center;
+      display:flex; gap:22px;
+      align-items:center; justify-content:center;
       flex-wrap:wrap;
     }
     #ov iframe{
@@ -150,61 +184,85 @@
       aspect-ratio:16/9;
       border:2px solid rgba(255,0,170,.6);
       border-radius:16px;
-      box-shadow:
-        0 0 30px rgba(255,0,170,.8),
-        0 0 80px rgba(255,0,170,.6);
+      box-shadow:0 0 30px rgba(255,0,170,.8), 0 0 80px rgba(255,0,170,.6);
     }
     #ov img{
       width:170px;
-      max-width:45vw;
       border-radius:16px;
       border:2px solid rgba(0,255,255,.5);
-      box-shadow:
-        0 0 25px rgba(0,255,255,.7),
-        0 0 70px rgba(0,255,255,.5);
+      box-shadow:0 0 25px rgba(0,255,255,.7), 0 0 70px rgba(0,255,255,.5);
     }
     .hint{
       position:fixed;
-      bottom:16px;
-      left:50%;
+      bottom:16px; left:50%;
       transform:translateX(-50%);
       font-size:13px;
       opacity:.6;
       color:#ff9fe8;
     }
 
-    /* mobile */
+    /* MOBILE */
     @media (max-width:600px){
-      .card{padding:32px 26px;width:90%}
+      .card{padding:32px 26px}
       .logo{width:72px}
       h1{font-size:44px}
       p{font-size:14px}
       .btn{padding:14px 28px;font-size:15px}
       .wrap{flex-direction:column}
       #ov img{width:120px}
-      .hint{font-size:11px;bottom:10px}
+      .spotify{height:300px}
     }
   </style>
 </head>
 
 <body>
-  <div class="card">
-    <img class="logo" src="logo-42.png" alt="42 logo">
-    <h1>гамно</h1>
-    <p>киберпанк версия официального гамна</p>
-    <button class="btn" id="open">▶ смотреть</button>
-
-    <div class="counter" title="общий счётчик (первый заход за сессию)">
-      <svg class="eye" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" stroke="currentColor" stroke-width="2" />
-        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" stroke-width="2" />
-      </svg>
-      <span>это гамно посмотрели</span>
-      <span class="count" id="count">…</span>
-      <span>раз</span>
+  <!-- NAV -->
+  <div class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#home">
+        <img src="logo-42.png" alt="42">
+        <span>GAMNO</span>
+      </a>
+      <div class="nav-links">
+        <a href="#home">главная</a>
+        <a href="#phantasmagoria">phantasmagoria</a>
+      </div>
     </div>
   </div>
 
+  <div class="container">
+    <!-- HOME -->
+    <section class="section" id="home">
+      <div class="grid">
+        <div class="card">
+          <img class="logo" src="logo-42.png" alt="42 logo">
+          <h1>гамно</h1>
+          <p>сайт официального гамна</p>
+
+          <div class="btns">
+            <button class="btn" id="open">▶ смотреть</button>
+            <a class="btn secondary" href="#phantasmagoria">🎧 phantasmagoria</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHANTASMAGORIA -->
+    <section class="section" id="phantasmagoria">
+      <div class="grid">
+        <div class="subcard">
+          <h2>PHANTASMAGORIA</h2>
+          <iframe class="spotify"
+            src="https://open.spotify.com/embed/album/3tZNBj3xEJcpzgmI3xdENj"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- VIDEO OVERLAY -->
   <div id="ov">
     <div class="wrap">
       <iframe id="yt" allow="autoplay; encrypted-media" allowfullscreen></iframe>
@@ -214,7 +272,6 @@
   </div>
 
   <script>
-    // видео
     const VIDEO_ID = "LnsH7x6h6zE";
     const ov = document.getElementById("ov");
     const yt = document.getElementById("yt");
@@ -230,53 +287,9 @@
     };
 
     ov.onclick = e => { if (e.target === ov) close(); };
-    document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
-
-    // общий счётчик (CountAPI): +1 только при первом заходе за сессию
-    const KEY_NS = "gamno-42";
-    const KEY_NAME = "site";
-    const SESSION_FLAG = "gamno_counted_this_session";
-
-    const el = document.getElementById("count");
-
-    function animateNumber(from, to, ms = 850) {
-      const start = performance.now();
-      const step = (t) => {
-        const p = Math.min(1, (t - start) / ms);
-        const val = Math.round(from + (to - from) * (1 - Math.pow(1 - p, 3))); // easeOutCubic
-        el.textContent = val.toLocaleString("ru-RU");
-        if (p < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    }
-
-    async function getCount() {
-      const r = await fetch(`https://api.countapi.xyz/get/${KEY_NS}/${KEY_NAME}`);
-      const d = await r.json();
-      return d.value ?? 0;
-    }
-
-    async function hitCount() {
-      const r = await fetch(`https://api.countapi.xyz/hit/${KEY_NS}/${KEY_NAME}`);
-      const d = await r.json();
-      return d.value ?? 0;
-    }
-
-    (async () => {
-      try {
-        const old = await getCount();
-        let next = old;
-
-        if (!sessionStorage.getItem(SESSION_FLAG)) {
-          next = await hitCount();
-          sessionStorage.setItem(SESSION_FLAG, "1");
-        }
-
-        animateNumber(old, next);
-      } catch {
-        el.textContent = "∞";
-      }
-    })();
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") close();
+    });
   </script>
 </body>
 </html>

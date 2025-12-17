@@ -1,252 +1,34 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>гамно</title>
+<meta charset="utf-8">
+<title>GAMNO</title>
 
-  <style>
-    *{box-sizing:border-box;margin:0;font-family:Arial,Helvetica,sans-serif}
-    html{scroll-behavior:smooth}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    body{
-      min-height:100vh;
-      color:#ffe6f2;
-      background:
-        radial-gradient(1200px 500px at 50% -10%, rgba(255,0,170,.18), transparent 40%),
-        radial-gradient(800px 400px at 10% 110%, rgba(0,255,255,.12), transparent 40%),
-        #06030a;
-    }
-
-    /* NAV */
-    .nav{
-      position:sticky; top:0; z-index:1000;
-      background:rgba(6,3,10,.55);
-      backdrop-filter:blur(12px);
-      border-bottom:1px solid rgba(255,0,170,.25);
-    }
-    .nav-inner{
-      max-width:1100px;
-      margin:0 auto;
-      padding:10px 14px;
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      text-decoration:none; color:#ffd6ef;
-      font-weight:900; letter-spacing:1px;
-    }
-    .brand img{
-      width:28px;
-      filter: drop-shadow(0 0 10px rgba(255,47,191,.8));
-    }
-    .nav-links{
-      margin-left:auto;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .nav-links a{
-      text-decoration:none;
-      color:#ffd6ef;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,0,170,.25);
-      background:rgba(255,255,255,.03);
-      transition:.2s;
-      font-size:14px;
-      white-space:nowrap;
-    }
-    .nav-links a:hover{
-      transform:translateY(-1px);
-      border-color:rgba(255,0,170,.55);
-      box-shadow:0 0 18px rgba(255,47,191,.25);
-    }
-
-    /* LAYOUT */
-    .container{max-width:1100px;margin:0 auto;padding:26px 14px 60px}
-    .section{padding:18px 0}
-    .grid{display:grid;gap:18px;justify-items:center}
-
-    .card{
-      width:min(760px,100%);
-      padding:52px 64px;
-      text-align:center;
-      border-radius:22px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,0,170,.35);
-      box-shadow:
-        0 0 40px rgba(255,0,170,.25),
-        0 0 120px rgba(255,0,170,.15),
-        inset 0 0 30px rgba(255,255,255,.05);
-      backdrop-filter:blur(12px);
-    }
-
-    .logo{
-      width:96px;
-      margin:0 auto 12px;
-      display:block;
-      filter:
-        drop-shadow(0 0 12px rgba(255,47,191,.9))
-        drop-shadow(0 0 36px rgba(255,47,191,.6));
-    }
-
-    h1{
-      font-size:68px;
-      letter-spacing:3px;
-      margin-bottom:14px;
-      color:#ff4fd8;
-      text-shadow:
-        0 0 6px #ff4fd8,
-        0 0 16px #ff4fd8,
-        0 0 40px #ff2fbf,
-        0 0 90px rgba(255,47,191,.8);
-      animation: neon 2.2s ease-in-out infinite;
-    }
-    @keyframes neon{
-      0%,100%{filter:brightness(1)}
-      50%{filter:brightness(1.25)}
-    }
-
-    p{opacity:.75;margin-bottom:26px;color:#ffd6ef}
-
-    .btns{
-      display:flex;
-      gap:12px;
-      justify-content:center;
-      flex-wrap:wrap;
-    }
-    .btn{
-      border:0; cursor:pointer;
-      padding:14px 34px;
-      border-radius:999px;
-      background:linear-gradient(90deg,#ff2fbf,#ff6fe3);
-      color:#160010;
-      font-weight:800;
-      letter-spacing:1px;
-      box-shadow:0 0 14px rgba(255,47,191,.8), 0 0 40px rgba(255,47,191,.6);
-      transition:.2s;
-    }
-    .btn:hover{
-      transform:translateY(-2px) scale(1.02);
-      box-shadow:0 0 22px rgba(255,47,191,1), 0 0 70px rgba(255,47,191,.9);
-    }
-
-    /* VIDEO OVERLAY */
-    #ov{
-      position:fixed; inset:0;
-      display:none;
-      align-items:center; justify-content:center;
-      background:rgba(5,0,8,.88);
-      z-index:999;
-      padding:24px;
-    }
-    .wrap{
-      display:flex; gap:22px;
-      align-items:center; justify-content:center;
-      flex-wrap:wrap;
-    }
-    #ov iframe{
-      width:min(900px,92vw);
-      aspect-ratio:16/9;
-      border:2px solid rgba(255,0,170,.6);
-      border-radius:16px;
-      box-shadow:0 0 30px rgba(255,0,170,.8), 0 0 80px rgba(255,0,170,.6);
-    }
-    #ov img{
-      width:170px;
-      border-radius:16px;
-      border:2px solid rgba(0,255,255,.5);
-      box-shadow:0 0 25px rgba(0,255,255,.7), 0 0 70px rgba(0,255,255,.5);
-    }
-    .hint{
-      position:fixed;
-      bottom:16px; left:50%;
-      transform:translateX(-50%);
-      font-size:13px;
-      opacity:.6;
-      color:#ff9fe8;
-    }
-
-    /* MOBILE */
-    @media (max-width:600px){
-      .card{padding:32px 26px}
-      .logo{width:72px}
-      h1{font-size:44px}
-      p{font-size:14px}
-      .btn{padding:14px 28px;font-size:15px}
-      .wrap{flex-direction:column}
-      #ov img{width:120px}
-      .hint{font-size:11px;bottom:10px}
-    }
-  </style>
+<link rel="stylesheet" href="/assets/css/style.css">
 </head>
-
 <body>
+
+<header class="top">
+  <img src="/assets/img/logo.png" alt="logo" class="logo">
+  <span class="brand">GAMNO</span>
+</header>
+
+<main class="center">
+  <h1>GAMNO</h1>
+  <p>официальный сайт гамна</p>
+
+  <a class="main-btn" href="/music/">🎧 музыка</a>
+</main>
+
+<footer>
   <div class="socials">
-  <a href="https://t.me/bumb_flex">💬 TG</a>
-</div>
-
-  <!-- NAV -->
-  <div class="nav">
-    <div class="nav-inner">
-      <a class="brand" href="#home">
-        <img src="logo-42.png" alt="42">
-        <span>GAMNO</span>
-      </a>
-      <div class="nav-links">
-        <a href="#home">главная</a>
-      </div>
-    </div>
+    <a href="https://t.me/USERNAME" target="_blank" rel="noopener">Telegram</a>
+    <a href="https://instagram.com/USERNAME" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://youtube.com/@USERNAME" target="_blank" rel="noopener">YouTube</a>
   </div>
+</footer>
 
-  <div class="container">
-    <!-- HOME -->
-    <section class="section" id="home">
-      <div class="grid">
-        <div class="card">
-          <img class="logo" src="logo-42.png" alt="42 logo">
-          <h1>гамно</h1>
-          <p>сайт официального гамна</p>
-
-          <div class="btns">
-            <button class="btn" id="open">▶ смотреть</button>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- VIDEO OVERLAY -->
-  <div id="ov">
-    <div class="wrap">
-      <iframe id="yt" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-      <img src="dance.gif" alt="dance gif">
-    </div>
-    <div class="hint">закрыть: клик по фону или esc</div>
-  </div>
-
-  <script>
-    const VIDEO_ID = "lPiJbzS-Z6E";
-    const ov = document.getElementById("ov");
-    const yt = document.getElementById("yt");
-
-    document.getElementById("open").onclick = () => {
-      yt.src = `https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1`;
-      ov.style.display = "flex";
-    };
-
-    const close = () => {
-      ov.style.display = "none";
-      yt.src = "";
-    };
-
-    ov.onclick = e => { if (e.target === ov) close(); };
-    document.addEventListener("keydown", e => {
-      if (e.key === "Escape") close();
-    });
-  </script>
 </body>
 </html>

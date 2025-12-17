@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>404 — не найдено</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  min-height:100vh;
+  background:radial-gradient(circle at top, #2a002a, #050008 70%);
+  color:#ff9fe8;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.wrap{
+  max-width:520px;
+  padding:30px;
+}
+
+.wrap img{
+  max-width:100%;
+  border-radius:20px;
+  box-shadow:0 0 40px #ff2fbf66;
+  margin-bottom:24px;
+}
+
+h1{
+  font-size:72px;
+  color:#ff2fbf;
+  text-shadow:0 0 20px #ff2fbf;
+}
+
+p{
+  opacity:.75;
+  margin:14px 0 26px;
+}
+
+a{
+  display:inline-block;
+  padding:12px 22px;
+  border-radius:16px;
+  background:#ff2fbf;
+  color:#000;
+  text-decoration:none;
+  font-weight:bold;
+  box-shadow:0 0 20px #ff2fbf;
+  transition:.2s;
+}
+
+a:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 30px #ff2fbf;
+}
+
+@media (max-width:600px){
+  h1{font-size:48px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+  <img src="/assets/img/404.png" alt="404">
+  <h1>404</h1>
+  <p>нихуя ты захотел</p>
+  <a href="/">вернуться домой</a>
+</div>
+
+</body>
+</html>

@@ -244,7 +244,6 @@
       background:rgba(255,255,255,.06);
       color:#ffd6ef;
       outline:none;
-      font-size:16px; /* чтобы мобилки не зумили */
     }
     .input::placeholder{ color:rgba(255,214,239,.6); }
 
@@ -265,22 +264,6 @@
       min-height: 34px;
       display:flex;
       align-items:center;
-    }
-
-    .linkbtn{
-      display:none;
-      text-align:center;
-      text-decoration:none;
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid rgba(0,255,255,.25);
-      background:rgba(0,255,255,.06);
-      color:#bffcff;
-      font-size:13px;
-    }
-    .linkbtn:hover{
-      border-color:rgba(0,255,255,.55);
-      box-shadow:0 0 18px rgba(0,255,255,.25);
     }
 
     .overlay-foot{
@@ -359,10 +342,9 @@
 
         <div class="side">
           <div class="panel">
-            <div class="small">отправь своё видео (любой формат: youtu.be / watch?v=). сохраняется у тебя в браузере.</div>
+            <div class="small">отправь своё видео (любой формат: youtu.be / watch?v=)</div>
             <input class="input" type="text" id="sendurl" placeholder="https://youtu.be/dQw4w9WgXcQ">
             <button class="btn" id="send">➕ добавить в рандом</button>
-            <a class="linkbtn" id="openYT" target="_blank" rel="noopener">открыть на youtube</a>
             <div class="status" id="status">готов.</div>
           </div>
 
@@ -374,63 +356,59 @@
 
       <div class="overlay-foot">
         <div>закрыть: клик по фону или esc</div>
-        <div>если видео не встраивается — жми «открыть на youtube»</div>
+        <div>если видео не встраивается — оно откроется только на youtube</div>
       </div>
     </div>
   </div>
 
   <script>
-    /* ====== ЛОКАЛЬНЫЙ РАНДОМ (чтобы работало в Яндексе без внешнего API) ====== */
-    const STORAGE_KEY = "gamno_video_ids_v1";
-
-    // стартовый набор (можешь добавить любые id)
-    const DEFAULT_IDS = [
-      "LnsH7x6h6zE"
-    ];
+    const apiHost = "https://api.femboyz.cloud:1488";
 
     const ov = document.getElementById("ov");
     const yt = document.getElementById("yt");
     const statusEl = document.getElementById("status");
-    const openYT = document.getElementById("openYT");
 
     function setStatus(t){ statusEl.textContent = t; }
 
-    function loadIds(){
+    async function getRandomVideoId(){
       try{
-        const raw = localStorage.getItem(STORAGE_KEY);
-        const arr = raw ? JSON.parse(raw) : null;
-        if(Array.isArray(arr) && arr.length) return arr;
-      }catch(e){}
-      return [...DEFAULT_IDS];
+        const r = await fetch(`${apiHost}/get_random`);
+        const id = (await r.text()).trim();
+        return id || null;
+      }catch(e){
+        console.error(e);
+        return null;
+      }
     }
-    function saveIds(arr){
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
-    }
-    function addId(id){
-      const ids = loadIds();
-      if(!ids.includes(id)) ids.push(id);
-      saveIds(ids);
-      return ids.length;
+
+    async function requestAddVideo(video_id){
+      if(!video_id){
+        return "Invalid id";
+      }
+      try{
+        const r = await fetch(`${apiHost}/add?id=${encodeURIComponent(video_id)}`, { method: "POST" });
+        const t = (await r.text()).trim();
+        return "[server] " + t;
+      }catch(e){
+        console.error(e);
+        return "Error: " + e.message;
+      }
     }
 
     function normalizeUrl(u){
       const s = (u || "").trim();
       if(!s) return "";
+      // если чел вставил youtu.be/... без https
       if(s.startsWith("youtu.be/") || s.startsWith("www.youtube.com") || s.startsWith("youtube.com")){
         return "https://" + s;
       }
       return s;
     }
 
-    function parseYouTubeVideoId(input){
-      const s = (input || "").trim();
-      if(!s) return null;
-
-      // если юзер вставил просто ID
-      if(/^[a-zA-Z0-9_-]{11}$/.test(s)) return s;
-
+    function parseYouTubeVideoId(url){
       try{
-        const urlObj = new URL(normalizeUrl(s));
+        const fixed = normalizeUrl(url);
+        const urlObj = new URL(fixed);
         let id = null;
 
         if(urlObj.hostname === "youtu.be"){
@@ -452,53 +430,41 @@
     }
 
     async function isVideoEmbeddable(id){
-      // это не идеальная проверка, но часто помогает понять что embed запрещён
       try{
         const r = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}`);
         return r.ok;
       }catch(e){
-        // если браузер режет запросы — всё равно попробуем embed
-        return true;
+        console.error(e);
+        return false;
       }
     }
 
     function openOverlay(){
       ov.style.display = "flex";
       ov.setAttribute("aria-hidden","false");
-      document.body.style.overflow = "hidden";
     }
     function closeOverlay(){
       ov.style.display = "none";
       ov.setAttribute("aria-hidden","true");
       yt.src = "";
-      openYT.style.display = "none";
-      openYT.removeAttribute("href");
-      document.body.style.overflow = "";
     }
 
     async function openRandom(){
       setStatus("ищу рандом...");
-
-      const ids = loadIds();
-      if(!ids.length){
-        setStatus("лист пустой.");
+      const id = await getRandomVideoId();
+      if(!id){
+        setStatus("не получилось получить рандом (сервер/инет).");
         return;
       }
 
-      const id = ids[Math.floor(Math.random() * ids.length)];
       const ok = await isVideoEmbeddable(id);
-
-      yt.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
-
       if(!ok){
-        setStatus("это видео может не встраиваться. открой на youtube.");
-        openYT.style.display = "block";
-        openYT.href = `https://www.youtube.com/watch?v=${id}`;
+        setStatus("это видео нельзя встроить. откроется только на youtube.");
       }else{
         setStatus("поехали.");
-        openYT.style.display = "none";
       }
 
+      yt.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
       openOverlay();
     }
 
@@ -506,7 +472,7 @@
     document.getElementById("open2").onclick = openRandom;
     document.getElementById("closeBtn").onclick = closeOverlay;
 
-    document.getElementById("send").onclick = () => {
+    document.getElementById("send").onclick = async () => {
       const url = document.getElementById("sendurl").value;
       const id = parseYouTubeVideoId(url);
 
@@ -515,8 +481,9 @@
         return;
       }
 
-      const total = addId(id);
-      setStatus(`добавлено ✅ (всего: ${total})`);
+      setStatus("отправляю на сервер...");
+      const res = await requestAddVideo(id);
+      setStatus(res);
       document.getElementById("sendurl").value = "";
     };
 

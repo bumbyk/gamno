@@ -46,6 +46,7 @@
       margin-left:auto;
       display:flex;
       gap:10px;
+      flex-wrap:wrap;
     }
     .nav-links a{
       text-decoration:none;
@@ -56,10 +57,17 @@
       background:rgba(255,255,255,.03);
       transition:.2s;
       font-size:14px;
+      white-space:nowrap;
+    }
+    .nav-links a:hover{
+      transform:translateY(-1px);
+      border-color:rgba(255,0,170,.55);
+      box-shadow:0 0 18px rgba(255,47,191,.25);
     }
 
     /* LAYOUT */
     .container{max-width:1100px;margin:0 auto;padding:26px 14px 60px}
+    .section{padding:18px 0}
     .grid{display:grid;gap:18px;justify-items:center}
 
     .card{
@@ -69,7 +77,10 @@
       border-radius:22px;
       background:rgba(255,255,255,.04);
       border:1px solid rgba(255,0,170,.35);
-      box-shadow:0 0 40px rgba(255,0,170,.25);
+      box-shadow:
+        0 0 40px rgba(255,0,170,.25),
+        0 0 120px rgba(255,0,170,.15),
+        inset 0 0 30px rgba(255,255,255,.05);
       backdrop-filter:blur(12px);
     }
 
@@ -77,22 +88,28 @@
       width:96px;
       margin:0 auto 12px;
       display:block;
-      filter: drop-shadow(0 0 12px rgba(255,47,191,.9));
+      filter: drop-shadow(0 0 12px rgba(255,47,191,.9))
+              drop-shadow(0 0 36px rgba(255,47,191,.6));
     }
 
     h1{
       font-size:68px;
+      letter-spacing:3px;
       margin-bottom:14px;
       color:#ff4fd8;
-      text-shadow:0 0 20px #ff2fbf;
-      animation: neon 2.2s infinite;
+      text-shadow:
+        0 0 6px #ff4fd8,
+        0 0 16px #ff4fd8,
+        0 0 40px #ff2fbf,
+        0 0 90px rgba(255,47,191,.8);
+      animation: neon 2.2s ease-in-out infinite;
     }
     @keyframes neon{
       0%,100%{filter:brightness(1)}
       50%{filter:brightness(1.25)}
     }
 
-    p{opacity:.75;margin-bottom:26px}
+    p{opacity:.75;margin-bottom:26px;color:#ffd6ef}
 
     .btns{
       display:flex;
@@ -107,12 +124,19 @@
       background:linear-gradient(90deg,#ff2fbf,#ff6fe3);
       color:#160010;
       font-weight:800;
-      box-shadow:0 0 20px rgba(255,47,191,.8);
+      letter-spacing:1px;
+      box-shadow:0 0 14px rgba(255,47,191,.8), 0 0 40px rgba(255,47,191,.6);
+      transition:.2s;
+    }
+    .btn:hover{
+      transform:translateY(-2px) scale(1.02);
+      box-shadow:0 0 22px rgba(255,47,191,1), 0 0 70px rgba(255,47,191,.9);
     }
     .btn.secondary{
       background:rgba(255,255,255,.06);
       color:#ffd6ef;
       border:1px solid rgba(255,0,170,.35);
+      box-shadow:none;
     }
 
     /* OVERLAY */
@@ -128,34 +152,61 @@
     .overlay-card{
       width:min(1080px, 96vw);
       border-radius:22px;
-      background:rgba(255,255,255,.03);
       border:1px solid rgba(255,0,170,.35);
+      background:rgba(255,255,255,.03);
+      backdrop-filter: blur(14px);
+      box-shadow:0 0 60px rgba(255,47,191,.18);
       overflow:hidden;
     }
 
     .overlay-top{
       display:flex;
+      gap:14px;
+      align-items:center;
       justify-content:space-between;
-      padding:14px;
+      padding:14px 14px;
       border-bottom:1px solid rgba(255,0,170,.18);
+    }
+
+    .overlay-title{
+      font-weight:900;
+      letter-spacing:1px;
+      color:#ffd6ef;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      user-select:none;
+    }
+    .pill{
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      border:1px solid rgba(0,255,255,.25);
+      background:rgba(0,255,255,.06);
+      color:#bffcff;
+      opacity:.9;
     }
 
     .overlay-body{
       display:grid;
-      grid-template-columns:1fr 260px;
+      grid-template-columns: 1fr 260px;
       gap:14px;
       padding:14px;
+      align-items:start;
     }
 
     .player{
       border-radius:16px;
       border:2px solid rgba(255,0,170,.6);
+      box-shadow:0 0 30px rgba(255,0,170,.6), 0 0 80px rgba(255,0,170,.35);
       overflow:hidden;
       background:#000;
     }
+
     #yt{
       width:100%;
       aspect-ratio:16/9;
+      display:block;
       border:0;
     }
 
@@ -166,126 +217,313 @@
     }
 
     .gif{
-      border-radius:16px;
-      overflow:hidden;
-      border:2px solid rgba(0,255,255,.35);
-    }
-    .gif img{
       width:100%;
-      display:block;
+      border-radius:16px;
+      border:2px solid rgba(0,255,255,.35);
+      box-shadow:0 0 25px rgba(0,255,255,.35);
+      overflow:hidden;
+      background:rgba(0,0,0,.3);
     }
+    .gif img{ width:100%; display:block; }
 
     .panel{
-      padding:12px;
       border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
       background:rgba(0,0,0,.25);
+      padding:12px;
       display:flex;
       flex-direction:column;
       gap:10px;
     }
 
     .input{
+      width:100%;
       padding:10px 12px;
       border-radius:999px;
       border:1px solid rgba(255,255,255,.35);
       background:rgba(255,255,255,.06);
       color:#ffd6ef;
-      font-size:16px;
+      outline:none;
+    }
+    .input::placeholder{ color:rgba(255,214,239,.6); }
+
+    .small{
+      font-size:12px;
+      opacity:.7;
+      line-height:1.4;
+      color:#ffd6ef;
     }
 
     .status{
       font-size:12px;
-      padding:8px;
-      background:rgba(255,0,170,.08);
+      padding:8px 10px;
       border-radius:12px;
+      border:1px solid rgba(255,0,170,.18);
+      background:rgba(255,0,170,.08);
+      color:#ffd6ef;
+      min-height: 34px;
+      display:flex;
+      align-items:center;
     }
 
-    /* ===== MOBILE ONLY FIX ===== */
+    .overlay-foot{
+      padding:10px 14px 14px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      border-top:1px solid rgba(255,0,170,.18);
+      color:#ff9fe8;
+      font-size:12px;
+      opacity:.75;
+    }
+
+    /* MOBILE */
+    @media (max-width:900px){
+      .overlay-body{ grid-template-columns:1fr; }
+      .side{ flex-direction:column-reverse; }
+    }
     @media (max-width:600px){
-      .card{padding:32px 24px}
+      .card{padding:32px 26px}
+      .logo{width:72px}
       h1{font-size:44px}
+      p{font-size:14px}
+      .btn{padding:14px 22px;font-size:15px}
+    }
 
-      #ov{padding:10px}
+    /* ===== МАКСИМАЛЬНЫЙ FIX ТОЛЬКО ДЛЯ МОБИЛКИ (ПК НЕ ТРОГАЕМ) ===== */
+    @media (max-width:600px){
+      /* меньше отступов у оверлея */
+      #ov{ padding:10px; }
 
-      .overlay-body{
-        grid-template-columns:1fr;
-        gap:10px;
+      /* верх оверлея компактнее */
+      .overlay-top{
         padding:10px;
+        gap:10px;
+        flex-wrap:wrap;
       }
 
-      .gif{
-        max-height:200px;
+      /* тело оверлея плотнее */
+      .overlay-body{
+        padding:10px;
+        gap:10px;
       }
+
+      /* гифка НЕ огромная */
+      .gif{ max-height:200px; }
       .gif img{
         max-height:200px;
+        width:100%;
         object-fit:contain;
+      }
+
+      /* чтобы iOS не зумил поле ввода */
+      .input{ font-size:16px; }
+
+      /* футер в столбик */
+      .overlay-foot{
+        flex-direction:column;
+        gap:6px;
       }
     }
   </style>
 </head>
 
 <body>
+  <!-- NAV -->
   <div class="nav">
     <div class="nav-inner">
-      <a class="brand" href="#">
+      <a class="brand" href="#home">
         <img src="logo-42.png" alt="42">
         <span>GAMNO</span>
       </a>
+      <div class="nav-links">
+        <a href="#home">главная</a>
+      </div>
     </div>
   </div>
 
   <div class="container">
-    <div class="grid">
-      <div class="card">
-        <img class="logo" src="logo-42.png">
-        <h1>гамно</h1>
-        <p>сайт официального гамна</p>
-        <div class="btns">
-          <button class="btn" id="open">▶ смотреть рандом</button>
+    <section class="section" id="home">
+      <div class="grid">
+        <div class="card">
+          <img class="logo" src="logo-42.png" alt="42 logo">
+          <h1>гамно</h1>
+          <p>сайт официального гамна</p>
+
+          <div class="btns">
+            <button class="btn" id="open">▶ смотреть рандом</button>
+            <button class="btn secondary" id="open2" title="Откроет новое рандомное">🎲 новое</button>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 
-  <div id="ov">
-    <div class="overlay-card">
+  <!-- OVERLAY -->
+  <div id="ov" aria-hidden="true">
+    <div class="overlay-card" role="dialog" aria-modal="true">
       <div class="overlay-top">
-        <b>GAMNO PLAYER</b>
-        <button class="btn secondary" id="close">✖</button>
+        <div class="overlay-title">
+          GAMNO PLAYER <span class="pill">рандом</span>
+        </div>
+        <div class="btns">
+          <button class="btn secondary" id="closeBtn">✖ закрыть</button>
+        </div>
       </div>
 
       <div class="overlay-body">
         <div class="player">
-          <iframe id="yt" allow="autoplay" allowfullscreen></iframe>
+          <iframe id="yt" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
 
         <div class="side">
           <div class="panel">
-            <input class="input" id="url" placeholder="https://youtu.be/...">
-            <button class="btn" id="send">➕ добавить</button>
+            <div class="small">отправь своё видео (любой формат: youtu.be / watch?v=)</div>
+            <input class="input" type="text" id="sendurl" placeholder="https://youtu.be/dQw4w9WgXcQ">
+            <button class="btn" id="send">➕ добавить в рандом</button>
             <div class="status" id="status">готов.</div>
           </div>
 
           <div class="gif">
-            <img src="dance.gif">
+            <img src="dance.gif" alt="dance gif">
           </div>
         </div>
+      </div>
+
+      <div class="overlay-foot">
+        <div>закрыть: клик по фону или esc</div>
+        <div>если видео не встраивается — оно откроется только на youtube</div>
       </div>
     </div>
   </div>
 
   <script>
+    const apiHost = "https://api.femboyz.cloud:1488";
+
     const ov = document.getElementById("ov");
     const yt = document.getElementById("yt");
+    const statusEl = document.getElementById("status");
 
-    document.getElementById("open").onclick = ()=>{
-      yt.src = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
-      ov.style.display="flex";
+    function setStatus(t){ statusEl.textContent = t; }
+
+    async function getRandomVideoId(){
+      try{
+        const r = await fetch(`${apiHost}/get_random`);
+        const id = (await r.text()).trim();
+        return id || null;
+      }catch(e){
+        console.error(e);
+        return null;
+      }
+    }
+
+    async function requestAddVideo(video_id){
+      if(!video_id){
+        return "Invalid id";
+      }
+      try{
+        const r = await fetch(`${apiHost}/add?id=${encodeURIComponent(video_id)}`, { method: "POST" });
+        const t = (await r.text()).trim();
+        return "[server] " + t;
+      }catch(e){
+        console.error(e);
+        return "Error: " + e.message;
+      }
+    }
+
+    function normalizeUrl(u){
+      const s = (u || "").trim();
+      if(!s) return "";
+      if(s.startsWith("youtu.be/") || s.startsWith("www.youtube.com") || s.startsWith("youtube.com")){
+        return "https://" + s;
+      }
+      return s;
+    }
+
+    function parseYouTubeVideoId(url){
+      try{
+        const fixed = normalizeUrl(url);
+        const urlObj = new URL(fixed);
+        let id = null;
+
+        if(urlObj.hostname === "youtu.be"){
+          id = urlObj.pathname.slice(1).split("?")[0];
+        }
+
+        if(urlObj.hostname === "www.youtube.com" || urlObj.hostname === "youtube.com" || urlObj.hostname === "m.youtube.com"){
+          if(urlObj.pathname === "/watch") id = urlObj.searchParams.get("v");
+          if(urlObj.pathname.startsWith("/embed/")) id = urlObj.pathname.split("/")[2];
+          if(urlObj.pathname.startsWith("/v/")) id = urlObj.pathname.split("/")[2];
+          if(urlObj.pathname.startsWith("/shorts/")) id = urlObj.pathname.split("/")[2];
+        }
+
+        if(!id || id.length !== 11) return null;
+        return id;
+      }catch(e){
+        return null;
+      }
+    }
+
+    async function isVideoEmbeddable(id){
+      try{
+        const r = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}`);
+        return r.ok;
+      }catch(e){
+        console.error(e);
+        return false;
+      }
+    }
+
+    function openOverlay(){
+      ov.style.display = "flex";
+      ov.setAttribute("aria-hidden","false");
+    }
+    function closeOverlay(){
+      ov.style.display = "none";
+      ov.setAttribute("aria-hidden","true");
+      yt.src = "";
+    }
+
+    async function openRandom(){
+      setStatus("ищу рандом...");
+      const id = await getRandomVideoId();
+      if(!id){
+        setStatus("не получилось получить рандом (сервер/инет).");
+        return;
+      }
+
+      const ok = await isVideoEmbeddable(id);
+      if(!ok){
+        setStatus("это видео нельзя встроить. откроется только на youtube.");
+      }else{
+        setStatus("поехали.");
+      }
+
+      yt.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+      openOverlay();
+    }
+
+    document.getElementById("open").onclick = openRandom;
+    document.getElementById("open2").onclick = openRandom;
+    document.getElementById("closeBtn").onclick = closeOverlay;
+
+    document.getElementById("send").onclick = async () => {
+      const url = document.getElementById("sendurl").value;
+      const id = parseYouTubeVideoId(url);
+
+      if(!id){
+        setStatus("Invalid URL (юрл инвалид)");
+        return;
+      }
+
+      setStatus("отправляю на сервер...");
+      const res = await requestAddVideo(id);
+      setStatus(res);
+      document.getElementById("sendurl").value = "";
     };
-    document.getElementById("close").onclick = ()=>{
-      yt.src="";
-      ov.style.display="none";
-    };
+
+    ov.addEventListener("click", (e) => { if(e.target === ov) closeOverlay(); });
+    document.addEventListener("keydown", (e) => { if(e.key === "Escape") closeOverlay(); });
   </script>
 </body>
 </html>

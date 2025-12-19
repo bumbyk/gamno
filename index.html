@@ -1,328 +1,487 @@
 <!doctype html>
 <html lang="ru">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>гамно</title>
 
   <style>
-    * { box-sizing: border-box; margin: 0; font-family: Arial, Helvetica, sans-serif; }
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-    body{
-      min-height:100vh;
-      color:#ffe6f2;
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      color: #ffe6f2;
       background:
-        radial-gradient(1200px 500px at 50% -10%, rgba(255,0,170,.18), transparent 40%),
-        radial-gradient(800px 400px at 10% 110%, rgba(0,255,255,.12), transparent 40%),
+        radial-gradient(1200px 500px at 50% -10%, rgba(255, 0, 170, .18), transparent 40%),
+        radial-gradient(800px 400px at 10% 110%, rgba(0, 255, 255, .12), transparent 40%),
         #06030a;
     }
 
     /* NAV */
-    .nav{
-      position:sticky; top:0; z-index:1000;
-      background:rgba(6,3,10,.55);
-      backdrop-filter:blur(12px);
-      border-bottom:1px solid rgba(255,0,170,.25);
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(6, 3, 10, .55);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 0, 170, .25);
     }
-    .nav-inner{
-      max-width:1100px;
-      margin:0 auto;
-      padding:10px 14px;
-      display:flex;
-      align-items:center;
-      gap:12px;
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      text-decoration:none; color:#ffd6ef;
-      font-weight:900; letter-spacing:1px;
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #ffd6ef;
+      font-weight: 900;
+      letter-spacing: 1px;
     }
-    .brand img{
-      width:28px;
-      filter: drop-shadow(0 0 10px rgba(255,47,191,.8));
+
+    .brand img {
+      width: 28px;
+      filter: drop-shadow(0 0 10px rgba(255, 47, 191, .8));
     }
-    .nav-links{
-      margin-left:auto;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
+
+    .nav-links {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
     }
-    .nav-links a{
-      text-decoration:none;
-      color:#ffd6ef;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,0,170,.25);
-      background:rgba(255,255,255,.03);
-      transition:.2s;
-      font-size:14px;
-      white-space:nowrap;
+
+    .nav-links a {
+      text-decoration: none;
+      color: #ffd6ef;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 0, 170, .25);
+      background: rgba(255, 255, 255, .03);
+      transition: .2s;
+      font-size: 14px;
+      white-space: nowrap;
     }
-    .nav-links a:hover{
-      transform:translateY(-1px);
-      border-color:rgba(255,0,170,.55);
-      box-shadow:0 0 18px rgba(255,47,191,.25);
+
+    .nav-links a:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255, 0, 170, .55);
+      box-shadow: 0 0 18px rgba(255, 47, 191, .25);
     }
 
     /* LAYOUT */
-    .container{max-width:1100px;margin:0 auto;padding:26px 14px 60px}
-    .section{padding:18px 0}
-    .grid{display:grid;gap:18px;justify-items:center}
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 26px 14px 60px
+    }
 
-    .card{
-      width:min(760px,100%);
-      padding:52px 64px;
-      text-align:center;
-      border-radius:22px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,0,170,.35);
+    .section {
+      padding: 18px 0
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+      justify-items: center
+    }
+
+    .card {
+      width: min(760px, 100%);
+      padding: 52px 64px;
+      text-align: center;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 0, 170, .35);
       box-shadow:
-        0 0 40px rgba(255,0,170,.25),
-        0 0 120px rgba(255,0,170,.15),
-        inset 0 0 30px rgba(255,255,255,.05);
-      backdrop-filter:blur(12px);
+        0 0 40px rgba(255, 0, 170, .25),
+        0 0 120px rgba(255, 0, 170, .15),
+        inset 0 0 30px rgba(255, 255, 255, .05);
+      backdrop-filter: blur(12px);
     }
 
-    .logo{
-      width:96px;
-      margin:0 auto 12px;
-      display:block;
-      filter: drop-shadow(0 0 12px rgba(255,47,191,.9))
-              drop-shadow(0 0 36px rgba(255,47,191,.6));
+    .logo {
+      width: 96px;
+      margin: 0 auto 12px;
+      display: block;
+      filter: drop-shadow(0 0 12px rgba(255, 47, 191, .9)) drop-shadow(0 0 36px rgba(255, 47, 191, .6));
     }
 
-    h1{
-      font-size:68px;
-      letter-spacing:3px;
-      margin-bottom:14px;
-      color:#ff4fd8;
+    h1 {
+      font-size: 68px;
+      letter-spacing: 3px;
+      margin-bottom: 14px;
+      color: #ff4fd8;
       text-shadow:
         0 0 6px #ff4fd8,
         0 0 16px #ff4fd8,
         0 0 40px #ff2fbf,
-        0 0 90px rgba(255,47,191,.8);
+        0 0 90px rgba(255, 47, 191, .8);
       animation: neon 2.2s ease-in-out infinite;
     }
-    @keyframes neon{
-      0%,100%{filter:brightness(1)}
-      50%{filter:brightness(1.25)}
+
+    @keyframes neon {
+
+      0%,
+      100% {
+        filter: brightness(1)
+      }
+
+      50% {
+        filter: brightness(1.25)
+      }
     }
 
-    p{opacity:.75;margin-bottom:26px;color:#ffd6ef}
+    p {
+      opacity: .75;
+      margin-bottom: 26px;
+      color: #ffd6ef
+    }
 
-    .btns{
-      display:flex;
-      gap:12px;
-      justify-content:center;
-      flex-wrap:wrap;
+    .btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
-    .btn{
-      border:0; cursor:pointer;
-      padding:14px 34px;
-      border-radius:999px;
-      background:linear-gradient(90deg,#ff2fbf,#ff6fe3);
-      color:#160010;
-      font-weight:800;
-      letter-spacing:1px;
-      box-shadow:0 0 14px rgba(255,47,191,.8), 0 0 40px rgba(255,47,191,.6);
-      transition:.2s;
+
+    .btn {
+      border: 0;
+      cursor: pointer;
+      padding: 14px 34px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ff2fbf, #ff6fe3);
+      color: #160010;
+      font-weight: 800;
+      letter-spacing: 1px;
+      box-shadow: 0 0 14px rgba(255, 47, 191, .8), 0 0 40px rgba(255, 47, 191, .6);
+      transition: .2s;
     }
-    .btn:hover{
-      transform:translateY(-2px) scale(1.02);
-      box-shadow:0 0 22px rgba(255,47,191,1), 0 0 70px rgba(255,47,191,.9);
+
+    .btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 0 22px rgba(255, 47, 191, 1), 0 0 70px rgba(255, 47, 191, .9);
     }
-    .btn.secondary{
-      background:rgba(255,255,255,.06);
-      color:#ffd6ef;
-      border:1px solid rgba(255,0,170,.35);
-      box-shadow:none;
+
+    .btn.secondary {
+      background: rgba(255, 255, 255, .06);
+      color: #ffd6ef;
+      border: 1px solid rgba(255, 0, 170, .35);
+      box-shadow: none;
     }
 
     /* OVERLAY */
-    #ov{
-      position:fixed; inset:0;
-      display:none;
-      align-items:center; justify-content:center;
-      background:rgba(5,0,8,.88);
-      z-index:999;
-      padding:24px;
+    #ov {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(5, 0, 8, .88);
+      z-index: 999;
+      padding: 24px;
     }
 
-    .overlay-card{
-      width:min(1080px, 96vw);
-      border-radius:22px;
-      border:1px solid rgba(255,0,170,.35);
-      background:rgba(255,255,255,.03);
+    .overlay-card {
+      width: min(1080px, 96vw);
+      border-radius: 22px;
+      border: 1px solid rgba(255, 0, 170, .35);
+      background: rgba(255, 255, 255, .03);
       backdrop-filter: blur(14px);
-      box-shadow:0 0 60px rgba(255,47,191,.18);
-      overflow:hidden;
+      box-shadow: 0 0 60px rgba(255, 47, 191, .18);
+      overflow: hidden;
     }
 
-    .overlay-top{
-      display:flex;
-      gap:14px;
-      align-items:center;
-      justify-content:space-between;
-      padding:14px 14px;
-      border-bottom:1px solid rgba(255,0,170,.18);
+    .overlay-top {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 14px;
+      border-bottom: 1px solid rgba(255, 0, 170, .18);
     }
 
-    .overlay-title{
-      font-weight:900;
-      letter-spacing:1px;
-      color:#ffd6ef;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      user-select:none;
-    }
-    .pill{
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:12px;
-      border:1px solid rgba(0,255,255,.25);
-      background:rgba(0,255,255,.06);
-      color:#bffcff;
-      opacity:.9;
+    .overlay-title {
+      font-weight: 900;
+      letter-spacing: 1px;
+      color: #ffd6ef;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
     }
 
-    .overlay-body{
-      display:grid;
+    .pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid rgba(0, 255, 255, .25);
+      background: rgba(0, 255, 255, .06);
+      color: #bffcff;
+      opacity: .9;
+    }
+
+    .overlay-body {
+      display: grid;
       grid-template-columns: 1fr 260px;
-      gap:14px;
-      padding:14px;
-      align-items:start;
+      gap: 14px;
+      padding: 14px;
+      align-items: start;
     }
 
-    .player{
-      border-radius:16px;
-      border:2px solid rgba(255,0,170,.6);
-      box-shadow:0 0 30px rgba(255,0,170,.6), 0 0 80px rgba(255,0,170,.35);
-      overflow:hidden;
-      background:#000;
+    .player {
+      position: relative;
+      border-radius: 16px;
+      border: 2px solid rgba(255, 0, 170, .6);
+      box-shadow: 0 0 30px rgba(255, 0, 170, .6), 0 0 80px rgba(255, 0, 170, .35);
+      overflow: hidden;
+      background: #000;
     }
 
-    #yt{
-      width:100%;
-      aspect-ratio:16/9;
-      display:block;
-      border:0;
+    .player .restricted-area .restricted-info-block {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+      color: #ffd6ef;
+      font-size: 24px;
+      font-weight: 900;
+      text-align: start;
+      transition: all .5s;
+      border-radius: 15px;
+      backdrop-filter: blur(0px);
+      background: rgba(0, 0, 0, 0);
     }
 
-    .side{
-      display:flex;
-      flex-direction:column;
-      gap:12px;
+    .player.restricted .restricted-area {
+      display: flex;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+      color: #ffd6ef;
+      font-size: 24px;
+      font-weight: 900;
+      text-align: start;
+      transition: all .5s;
+      border-radius: 15px;
+      backdrop-filter: blur(0px);
+      background: rgba(0, 0, 0, 0);
     }
 
-    .gif{
-      width:100%;
-      border-radius:16px;
-      border:2px solid rgba(0,255,255,.35);
-      box-shadow:0 0 25px rgba(0,255,255,.35);
-      overflow:hidden;
-      background:rgba(0,0,0,.3);
-    }
-    .gif img{ width:100%; display:block; }
-
-    .panel{
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(0,0,0,.25);
-      padding:12px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
+    .player.restricted .restricted-area img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
-    .input{
-      width:100%;
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.35);
-      background:rgba(255,255,255,.06);
-      color:#ffd6ef;
-      outline:none;
-    }
-    .input::placeholder{ color:rgba(255,214,239,.6); }
-
-    .small{
-      font-size:12px;
-      opacity:.7;
-      line-height:1.4;
-      color:#ffd6ef;
+    .player.restricted .restricted-area .restricted-info-block {
+      display: flex;
+      backdrop-filter: blur(15px) grayscale(.5);
+      background: rgba(0, 0, 0, .4);
     }
 
-    .status{
-      font-size:12px;
-      padding:8px 10px;
-      border-radius:12px;
-      border:1px solid rgba(255,0,170,.18);
-      background:rgba(255,0,170,.08);
-      color:#ffd6ef;
+    .video-info-block {
+      position: absolute;
+      bottom: -40px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 10px;
+      z-index: 100;
+      display: none;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      color: #ffd6ef;
+      font-size: 12px;
+      opacity: .7;
+    }
+
+    #yt {
+      width: 100%;
+      aspect-ratio: 16/9;
+      display: block;
+      border: 0;
+    }
+
+    .side {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .gif {
+      width: 100%;
+      border-radius: 16px;
+      border: 2px solid rgba(0, 255, 255, .35);
+      box-shadow: 0 0 25px rgba(0, 255, 255, .35);
+      overflow: hidden;
+      background: rgba(0, 0, 0, .3);
+    }
+
+    .gif img {
+      width: 100%;
+      display: block;
+    }
+
+    .panel {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, .10);
+      background: rgba(0, 0, 0, .25);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .35);
+      background: rgba(255, 255, 255, .06);
+      color: #ffd6ef;
+      outline: none;
+    }
+
+    .input::placeholder {
+      color: rgba(255, 214, 239, .6);
+    }
+
+    .small {
+      font-size: 12px;
+      opacity: .7;
+      line-height: 1.4;
+      color: #ffd6ef;
+    }
+
+    .status {
+      font-size: 12px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 0, 170, .18);
+      background: rgba(255, 0, 170, .08);
+      color: #ffd6ef;
       min-height: 34px;
-      display:flex;
-      align-items:center;
+      display: flex;
+      align-items: center;
     }
 
-    .overlay-foot{
-      padding:10px 14px 14px;
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      border-top:1px solid rgba(255,0,170,.18);
-      color:#ff9fe8;
-      font-size:12px;
-      opacity:.75;
+    .overlay-foot {
+      padding: 10px 14px 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      border-top: 1px solid rgba(255, 0, 170, .18);
+      color: #ff9fe8;
+      font-size: 12px;
+      opacity: .75;
     }
 
     /* MOBILE */
-    @media (max-width:900px){
-      .overlay-body{ grid-template-columns:1fr; }
-      .side{ flex-direction:column-reverse; }
+    @media (max-width:900px) {
+      .overlay-body {
+        grid-template-columns: 1fr;
+      }
+
+      .side {
+        flex-direction: column-reverse;
+      }
     }
-    @media (max-width:600px){
-      .card{padding:32px 26px}
-      .logo{width:72px}
-      h1{font-size:44px}
-      p{font-size:14px}
-      .btn{padding:14px 22px;font-size:15px}
+
+    @media (max-width:600px) {
+      .card {
+        padding: 32px 26px
+      }
+
+      .logo {
+        width: 72px
+      }
+
+      h1 {
+        font-size: 44px
+      }
+
+      p {
+        font-size: 14px
+      }
+
+      .btn {
+        padding: 14px 22px;
+        font-size: 15px
+      }
     }
 
     /* ===== МАКСИМАЛЬНЫЙ FIX ТОЛЬКО ДЛЯ МОБИЛКИ (ПК НЕ ТРОГАЕМ) ===== */
-    @media (max-width:600px){
+    @media (max-width:600px) {
+
       /* меньше отступов у оверлея */
-      #ov{ padding:10px; }
+      #ov {
+        padding: 10px;
+      }
 
       /* верх оверлея компактнее */
-      .overlay-top{
-        padding:10px;
-        gap:10px;
-        flex-wrap:wrap;
+      .overlay-top {
+        padding: 10px;
+        gap: 10px;
+        flex-wrap: wrap;
       }
 
       /* тело оверлея плотнее */
-      .overlay-body{
-        padding:10px;
-        gap:10px;
+      .overlay-body {
+        padding: 10px;
+        gap: 10px;
       }
 
       /* гифка НЕ огромная */
-      .gif{ max-height:200px; }
-      .gif img{
-        max-height:200px;
-        width:100%;
-        object-fit:contain;
+      .gif {
+        max-height: 200px;
+      }
+
+      .gif img {
+        max-height: 200px;
+        width: 100%;
+        object-fit: contain;
       }
 
       /* чтобы iOS не зумил поле ввода */
-      .input{ font-size:16px; }
+      .input {
+        font-size: 16px;
+      }
 
       /* футер в столбик */
-      .overlay-foot{
-        flex-direction:column;
-        gap:6px;
+      .overlay-foot {
+        flex-direction: column;
+        gap: 6px;
       }
     }
   </style>
@@ -352,7 +511,6 @@
 
           <div class="btns">
             <button class="btn" id="open">▶ смотреть рандом</button>
-            <button class="btn secondary" id="open2" title="Откроет новое рандомное">🎲 новое</button>
           </div>
         </div>
       </div>
@@ -372,8 +530,19 @@
       </div>
 
       <div class="overlay-body">
-        <div class="player">
+        <div class="player" id="player">
+          <div class="restricted-area" id="restricted-area">
+            <img id="ytthumb" src="" alt="">
+            <div class="restricted-info-block" id="restricted-info-block">
+              <span>Это видео запретили на гамно</span>
+              <span>для просмотра видео кликните на <a href="https://youtube.com">youtube</a></span>
+            </div>
+          </div>
           <iframe id="yt" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          <div class="video-info-block">
+            <span id="videoName">Гамно</span>
+            <span id="videoAuthor">GAMNO</span>
+          </div>
         </div>
 
         <div class="side">
@@ -382,6 +551,7 @@
             <input class="input" type="text" id="sendurl" placeholder="https://youtu.be/dQw4w9WgXcQ">
             <button class="btn" id="send">➕ добавить в рандом</button>
             <div class="status" id="status">готов.</div>
+            <button class="btn secondary" id="open2" title="Откроет новое рандомное">🎲 новое</button>
           </div>
 
           <div class="gif">
@@ -404,103 +574,121 @@
     const yt = document.getElementById("yt");
     const statusEl = document.getElementById("status");
 
-    function setStatus(t){ statusEl.textContent = t; }
+    function setStatus(t) { statusEl.textContent = t; }
 
-    async function getRandomVideoId(){
-      try{
-        const r = await fetch(`${apiHost}/get_random`);
-        const id = (await r.text()).trim();
-        return id || null;
-      }catch(e){
+    // v2
+    // template: { id: "11chars", video_name: "", video_author_name: "", is_embeddable: true | false }
+    // returns struct { Id: "11chars", VideoName: "", VideoAuthorName: "", IsEmbeddable: true | false }
+    async function requestRandomVideo() {
+      try {
+        const r = await fetch(`${apiHost}/v2/get_random`).then(r => r.json());
+        return {
+          Id: r.id,
+          VideoName: r.video_name,
+          VideoAuthorName: r.video_author_name,
+          IsEmbeddable: r.is_embeddable
+        };
+      } catch (e) {
         console.error(e);
         return null;
       }
     }
 
-    async function requestAddVideo(video_id){
-      if(!video_id){
+    // v2
+    // template: { id: "11chars", video_name: "", video_author_name: "", is_embeddable: true | false }
+    // returns struct { Id: "11chars", VideoName: "", VideoAuthorName: "", IsEmbeddable: true | false }
+    async function requestAddVideo(video_id) {
+      if (!video_id) {
         return "Invalid id";
       }
-      try{
-        const r = await fetch(`${apiHost}/add?id=${encodeURIComponent(video_id)}`, { method: "POST" });
-        const t = (await r.text()).trim();
-        return "[server] " + t;
-      }catch(e){
+      try {
+        const r = await fetch(`${apiHost}/v2/add?id=${encodeURIComponent(video_id)}`, { method: "POST" }).then(r => r.json());
+        return {
+          Id: r.id,
+          VideoName: r.video_name,
+          VideoAuthorName: r.video_author_name,
+          IsEmbeddable: r.is_embeddable
+        };
+      } catch (e) {
         console.error(e);
-        return "Error: " + e.message;
+        return {
+          Id: null,
+          VideoName: null,
+          VideoAuthorName: null,
+          IsEmbeddable: false
+        };
       }
     }
 
-    function normalizeUrl(u){
+    function normalizeUrl(u) {
       const s = (u || "").trim();
-      if(!s) return "";
-      if(s.startsWith("youtu.be/") || s.startsWith("www.youtube.com") || s.startsWith("youtube.com")){
+      if (!s) return "";
+      if (s.startsWith("youtu.be/") || s.startsWith("www.youtube.com") || s.startsWith("youtube.com")) {
         return "https://" + s;
       }
       return s;
     }
 
-    function parseYouTubeVideoId(url){
-      try{
+    function parseYouTubeVideoId(url) {
+      try {
         const fixed = normalizeUrl(url);
         const urlObj = new URL(fixed);
         let id = null;
 
-        if(urlObj.hostname === "youtu.be"){
+        if (urlObj.hostname === "youtu.be") {
           id = urlObj.pathname.slice(1).split("?")[0];
         }
 
-        if(urlObj.hostname === "www.youtube.com" || urlObj.hostname === "youtube.com" || urlObj.hostname === "m.youtube.com"){
-          if(urlObj.pathname === "/watch") id = urlObj.searchParams.get("v");
-          if(urlObj.pathname.startsWith("/embed/")) id = urlObj.pathname.split("/")[2];
-          if(urlObj.pathname.startsWith("/v/")) id = urlObj.pathname.split("/")[2];
-          if(urlObj.pathname.startsWith("/shorts/")) id = urlObj.pathname.split("/")[2];
+        if (urlObj.hostname === "www.youtube.com" || urlObj.hostname === "youtube.com" || urlObj.hostname === "m.youtube.com") {
+          if (urlObj.pathname === "/watch") id = urlObj.searchParams.get("v");
+          if (urlObj.pathname.startsWith("/embed/")) id = urlObj.pathname.split("/")[2];
+          if (urlObj.pathname.startsWith("/v/")) id = urlObj.pathname.split("/")[2];
+          if (urlObj.pathname.startsWith("/shorts/")) id = urlObj.pathname.split("/")[2];
         }
 
-        if(!id || id.length !== 11) return null;
+        if (!id || id.length !== 11) return null;
         return id;
-      }catch(e){
+      } catch (e) {
         return null;
       }
     }
 
-    async function isVideoEmbeddable(id){
-      try{
-        const r = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}`);
-        return r.ok;
-      }catch(e){
-        console.error(e);
-        return false;
-      }
-    }
-
-    function openOverlay(){
+    function openOverlay() {
       ov.style.display = "flex";
-      ov.setAttribute("aria-hidden","false");
+      ov.setAttribute("aria-hidden", "false");
     }
-    function closeOverlay(){
+    function closeOverlay() {
       ov.style.display = "none";
-      ov.setAttribute("aria-hidden","true");
+      ov.setAttribute("aria-hidden", "true");
       yt.src = "";
     }
 
-    async function openRandom(){
+    async function openRandom() {
       setStatus("ищу рандом...");
-      const id = await getRandomVideoId();
-      if(!id){
+      const r = await requestRandomVideo();
+      console.log(r);
+      if (!r) {
         setStatus("не получилось получить рандом (сервер/инет).");
         return;
       }
 
-      const ok = await isVideoEmbeddable(id);
-      if(!ok){
+      if (r.Restricted) {
         setStatus("это видео нельзя встроить. откроется только на youtube.");
-      }else{
+        const thumb = await getYTthumb(r.Id);
+        document.getElementById("ytthumb").src = thumb;
+        document.getElementById("player").classList.add("restricted");
+      } else {
         setStatus("поехали.");
+        document.getElementById("player").classList.remove("restricted");
       }
 
-      yt.src = `https://www.youtube.com/embed/${id}?autoplay=1`;
+      yt.src = `https://www.youtube.com/embed/${r.Id}?autoplay=1`;
       openOverlay();
+    }
+
+    async function getYTthumb(id) {
+      const res = await fetch(`https://img.youtube.com/vi/${id}/maxresdefault.jpg`);
+      return res.url;
     }
 
     document.getElementById("open").onclick = openRandom;
@@ -511,19 +699,20 @@
       const url = document.getElementById("sendurl").value;
       const id = parseYouTubeVideoId(url);
 
-      if(!id){
+      if (!id) {
         setStatus("Invalid URL (юрл инвалид)");
         return;
       }
 
       setStatus("отправляю на сервер...");
       const res = await requestAddVideo(id);
-      setStatus(res);
+      setStatus(res.IsEmbeddable ? "отправлено." : "отправлено, но это видео нельзя встроить. оно откроется только на youtube.");
       document.getElementById("sendurl").value = "";
     };
 
-    ov.addEventListener("click", (e) => { if(e.target === ov) closeOverlay(); });
-    document.addEventListener("keydown", (e) => { if(e.key === "Escape") closeOverlay(); });
+    ov.addEventListener("click", (e) => { if (e.target === ov) closeOverlay(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeOverlay(); });
   </script>
 </body>
+
 </html>

@@ -4,6 +4,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="referrer" content="no-referrer-when-downgrade">
+  <link rel="icon" href="favicon-32x32.png">
   <title>гамно</title>
 
   <style>
@@ -296,15 +298,20 @@
       background: rgba(0, 0, 0, 0);
     }
 
-    .player.restricted .restricted-area img {
+    .player.restricted #ytthumb {
+      display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
+    .player #ytthumb {
+      display: none;
+    }
+
     .player.restricted .restricted-area .restricted-info-block {
       display: flex;
-      backdrop-filter: blur(15px) grayscale(.5);
+      backdrop-filter: blur(10px) grayscale(.5);
       background: rgba(0, 0, 0, .4);
     }
 
@@ -535,7 +542,8 @@
             <img id="ytthumb" src="" alt="">
             <div class="restricted-info-block" id="restricted-info-block">
               <span>Это видео запретили на гамно</span>
-              <span>для просмотра видео кликните на <a href="https://youtube.com">youtube</a></span>
+              <span>для просмотра видео кликните на <a href="https://youtube.com"
+                  id="ytlink-restricted">youtube</a></span>
             </div>
           </div>
           <iframe id="yt" allow="autoplay; encrypted-media" allowfullscreen></iframe>
@@ -672,11 +680,13 @@
         return;
       }
 
-      if (r.IsEmbeddable) {
+      if (!r.IsEmbeddable) {
         setStatus("это видео нельзя встроить. откроется только на youtube.");
+
         const thumb = await getYTthumb(r.Id);
         document.getElementById("ytthumb").src = thumb;
         document.getElementById("player").classList.add("restricted");
+        document.getElementById("ytlink-restricted").href = `https://www.youtube.com/watch?v=${r.Id}`;
       } else {
         setStatus("поехали.");
         document.getElementById("player").classList.remove("restricted");
@@ -687,7 +697,7 @@
     }
 
     async function getYTthumb(id) {
-      const res = await fetch(`https://img.youtube.com/vi/${id}/maxresdefault.jpg`);
+      const res = await fetch(`https://img.youtube.com/vi/${id}/sddefault.jpg`);
       return res.url;
     }
 

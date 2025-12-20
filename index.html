@@ -190,7 +190,6 @@
 
     /* OVERLAY */
     #ov {
-      margin-top: 250px;
       position: fixed;
       inset: 0;
       display: none;
@@ -417,6 +416,10 @@
 
     /* MOBILE */
     @media (max-width:900px) {
+      #ov {
+        margin-top: 500px;
+      }
+
       .overlay-body {
         grid-template-columns: 1fr;
       }
@@ -450,11 +453,12 @@
     }
 
     /* ===== МАКСИМАЛЬНЫЙ FIX ТОЛЬКО ДЛЯ МОБИЛКИ (ПК НЕ ТРОГАЕМ) ===== */
-    @media (max-width:600px) {
+    @media (max-width:500px) {
 
       /* меньше отступов у оверлея */
       #ov {
         padding: 10px;
+        margin-top: 250px;
       }
 
       /* верх оверлея компактнее */

@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="ru">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -8,382 +9,606 @@
   <title>гамно</title>
 
   <style>
-    * { box-sizing: border-box; margin: 0; font-family: Arial, Helvetica, sans-serif; }
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-    body{
-      min-height:100vh;
-      color:#ffe6f2;
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      color: #ffe6f2;
       background:
-        radial-gradient(1200px 500px at 50% -10%, rgba(255,0,170,.18), transparent 40%),
-        radial-gradient(800px 400px at 10% 110%, rgba(0,255,255,.12), transparent 40%),
+        radial-gradient(1200px 500px at 50% -10%, rgba(255, 0, 170, .18), transparent 40%),
+        radial-gradient(800px 400px at 10% 110%, rgba(0, 255, 255, .12), transparent 40%),
         #06030a;
     }
 
     /* NAV */
-    .nav{
-      position:sticky; top:0; z-index:1000;
-      background:rgba(6,3,10,.55);
-      backdrop-filter:blur(12px);
-      border-bottom:1px solid rgba(255,0,170,.25);
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(6, 3, 10, .55);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 0, 170, .25);
     }
-    .nav-inner{
-      max-width:1100px;
-      margin:0 auto;
-      padding:10px 14px;
-      display:flex;
-      align-items:center;
-      gap:12px;
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      text-decoration:none; color:#ffd6ef;
-      font-weight:900; letter-spacing:1px;
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #ffd6ef;
+      font-weight: 900;
+      letter-spacing: 1px;
     }
-    .brand img{
-      width:28px;
-      filter: drop-shadow(0 0 10px rgba(255,47,191,.8));
+
+    .brand img {
+      width: 28px;
+      filter: drop-shadow(0 0 10px rgba(255, 47, 191, .8));
     }
-    .nav-links{
-      margin-left:auto;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
+
+    .nav-links {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
     }
-    .nav-links a{
-      text-decoration:none;
-      color:#ffd6ef;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,0,170,.25);
-      background:rgba(255,255,255,.03);
-      transition:.2s;
-      font-size:14px;
-      white-space:nowrap;
+
+    .nav-links a {
+      text-decoration: none;
+      color: #ffd6ef;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 0, 170, .25);
+      background: rgba(255, 255, 255, .03);
+      transition: .2s;
+      font-size: 14px;
+      white-space: nowrap;
     }
-    .nav-links a:hover{
-      transform:translateY(-1px);
-      border-color:rgba(255,0,170,.55);
-      box-shadow:0 0 18px rgba(255,47,191,.25);
+
+    .nav-links a:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255, 0, 170, .55);
+      box-shadow: 0 0 18px rgba(255, 47, 191, .25);
     }
 
     /* LAYOUT */
-    .container{max-width:1100px;margin:0 auto;padding:26px 14px 60px}
-    .section{padding:18px 0}
-    .grid{display:grid;gap:18px;justify-items:center}
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 26px 14px 60px
+    }
 
-    .card{
-      width:min(760px,100%);
-      padding:52px 64px;
-      text-align:center;
-      border-radius:22px;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,0,170,.35);
+    .section {
+      padding: 18px 0
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+      justify-items: center
+    }
+
+    .card {
+      width: min(760px, 100%);
+      padding: 52px 64px;
+      text-align: center;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 0, 170, .35);
       box-shadow:
-        0 0 40px rgba(255,0,170,.25),
-        0 0 120px rgba(255,0,170,.15),
-        inset 0 0 30px rgba(255,255,255,.05);
-      backdrop-filter:blur(12px);
+        0 0 40px rgba(255, 0, 170, .25),
+        0 0 120px rgba(255, 0, 170, .15),
+        inset 0 0 30px rgba(255, 255, 255, .05);
+      backdrop-filter: blur(12px);
     }
 
-    .logo{
-      width:96px;
-      margin:0 auto 12px;
-      display:block;
-      filter: drop-shadow(0 0 12px rgba(255,47,191,.9))
-              drop-shadow(0 0 36px rgba(255,47,191,.6));
+    .logo {
+      width: 96px;
+      margin: 0 auto 12px;
+      display: block;
+      filter: drop-shadow(0 0 12px rgba(255, 47, 191, .9)) drop-shadow(0 0 36px rgba(255, 47, 191, .6));
     }
 
-    h1{
-      font-size:68px;
-      letter-spacing:3px;
-      margin-bottom:14px;
-      color:#ff4fd8;
+    h1 {
+      font-size: 68px;
+      letter-spacing: 3px;
+      margin-bottom: 14px;
+      color: #ff4fd8;
       text-shadow:
         0 0 6px #ff4fd8,
         0 0 16px #ff4fd8,
         0 0 40px #ff2fbf,
-        0 0 90px rgba(255,47,191,.8);
+        0 0 90px rgba(255, 47, 191, .8);
       animation: neon 2.2s ease-in-out infinite;
     }
-    @keyframes neon{
-      0%,100%{filter:brightness(1)}
-      50%{filter:brightness(1.25)}
+
+    @keyframes neon {
+
+      0%,
+      100% {
+        filter: brightness(1)
+      }
+
+      50% {
+        filter: brightness(1.25)
+      }
     }
 
-    :root{
+    :root {
       --btn-def-color: linear-gradient(90deg, #ff2fbf, #ff6fe3);
       --btn-ok-color: linear-gradient(90deg, #55f7d4, #8dff35);
       --btn-error-color: linear-gradient(90deg, #ff3636, #af264b);
       --btn-warning-color: linear-gradient(90deg, #d5ef54, #ffdd00);
       --btn-info-color: linear-gradient(90deg, #00ffff, #00ffff);
       --btn-status-color: var(--btn-def-color);
+      --btn-status-animation: statusUpdate .8s cubic-bezier(.15, .79, .16, 1) forwards;
     }
 
-    @keyframes statusUpdate{
-      0%   { transform: translateY(0px) scale(1) rotate(0deg); background: var(--btn-def-color); }
-      25%  { transform: translateY(0px) scale(1.03) rotate(1deg); background: var(--btn-status-color); }
-      75%  { transform: translateY(0px) scale(1.03) rotate(-1deg); background: var(--btn-status-color); }
-      100% { transform: translateY(0px) scale(1) rotate(0deg); background: var(--btn-def-color); }
+    @keyframes statusUpdate {
+      0% {
+        transform: translateY(0px) scale(1) rotate(0deg);
+        background: var(--btn-def-color);
+      }
+
+      25% {
+        transform: translateY(0px) scale(1.03) rotate(1deg);
+        background: var(--btn-status-color);
+      }
+
+      75% {
+        transform: translateY(0px) scale(1.03) rotate(-1deg);
+        background: var(--btn-status-color);
+      }
+
+      100% {
+        transform: translateY(0px) scale(1) rotate(0deg);
+        background: var(--btn-def-color);
+      }
     }
 
-    p{opacity:.75;margin-bottom:26px;color:#ffd6ef}
-
-    .btns{
-      display:flex;
-      gap:12px;
-      justify-content:center;
-      flex-wrap:wrap;
+    p {
+      opacity: .75;
+      margin-bottom: 26px;
+      color: #ffd6ef
     }
 
-    .btn{
-      border:0; cursor:pointer;
-      padding:14px 34px;
-      border-radius:999px;
-      background:var(--btn-def-color);
-      color:#160010;
-      font-weight:800;
-      letter-spacing:1px;
-      box-shadow:0 0 14px rgba(255,47,191,.8), 0 0 40px rgba(255,47,191,.6);
-      transition: all .8s cubic-bezier(.15, .79, .16, 1);
+    .btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
-    .btn:hover{
-      box-shadow:0 0 22px rgba(255,47,191,1), 0 0 70px rgba(255,47,191,.9);
+
+    .btn {
+      border: 0;
+      cursor: pointer;
+      padding: 14px 34px;
+      border-radius: 999px;
+      background: var(--btn-def-color);
+      color: #160010;
+      font-weight: 800;
+      letter-spacing: 1px;
+      box-shadow: 0 0 14px rgba(255, 47, 191, .8), 0 0 40px rgba(255, 47, 191, .6);
+      transition: all .25s ease;
     }
-    .btn.secondary{
-      background:rgba(255,255,255,.06);
-      color:#ffd6ef;
-      border:1px solid rgba(255,0,170,.35);
-      box-shadow:none;
+
+    .btn:hover {
+      box-shadow: 0 0 22px rgba(255, 47, 191, 1), 0 0 70px rgba(255, 47, 191, .9);
+      transform: translateY(-1px);
+    }
+
+    .btn.secondary {
+      background: rgba(255, 255, 255, .06);
+      color: #ffd6ef;
+      border: 1px solid rgba(255, 0, 170, .35);
+      box-shadow: none;
     }
 
     /* OVERLAY */
-    #ov{
-      position:fixed; inset:0;
-      display:none;
-      align-items:center; justify-content:center;
-      background:rgba(5,0,8,.88);
-      z-index:999;
-      padding:24px;
+    #ov {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(5, 0, 8, .88);
+      z-index: 999;
+      padding: 24px;
     }
 
-    .overlay-card{
-      width:min(1080px, 96vw);
-      border-radius:22px;
-      border:1px solid rgba(255,0,170,.35);
-      background:rgba(255,255,255,.03);
+    .overlay-card {
+      width: min(1080px, 96vw);
+      border-radius: 22px;
+      border: 1px solid rgba(255, 0, 170, .35);
+      background: rgba(255, 255, 255, .03);
       backdrop-filter: blur(14px);
-      box-shadow:0 0 60px rgba(255,47,191,.18);
-      overflow:hidden;
+      box-shadow: 0 0 60px rgba(255, 47, 191, .18);
+      overflow: hidden;
     }
 
-    .overlay-top{
-      display:flex;
-      gap:14px;
-      align-items:center;
-      justify-content:space-between;
-      padding:14px 14px;
-      border-bottom:1px solid rgba(255,0,170,.18);
+    .overlay-top {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 14px;
+      border-bottom: 1px solid rgba(255, 0, 170, .18);
     }
 
-    .overlay-title{
-      font-weight:900;
-      letter-spacing:1px;
-      color:#ffd6ef;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      user-select:none;
+    .overlay-title {
+      font-weight: 900;
+      letter-spacing: 1px;
+      color: #ffd6ef;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
     }
 
-    .pill{
-      padding:6px 10px;
-      border-radius:999px;
-      font-size:12px;
-      border:1px solid rgba(0,255,255,.25);
-      background:rgba(0,255,255,.06);
-      color:#bffcff;
-      opacity:.9;
+    .pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid rgba(0, 255, 255, .25);
+      background: rgba(0, 255, 255, .06);
+      color: #bffcff;
+      opacity: .9;
     }
 
-    .overlay-body{
-      display:grid;
+    .overlay-body {
+      display: grid;
       grid-template-columns: 1fr 260px;
-      gap:14px;
-      padding:14px;
-      align-items:start;
+      gap: 14px;
+      padding: 14px;
+      align-items: start;
     }
 
-    /* PLAYER (важно: flex-column чтобы подпись была ПОД видео) */
-    .player{
-      position:relative;
-      border-radius:16px;
-      border:2px solid rgba(255,0,170,.6);
-      box-shadow:0 0 30px rgba(255,0,170,.6), 0 0 80px rgba(255,0,170,.35);
-      overflow:hidden;
-      background:#000;
-      display:flex;
-      flex-direction:column;
+    .player {
+      position: relative;
+      border-radius: 16px;
+      border: 2px solid rgba(255, 0, 170, .6);
+      box-shadow: 0 0 30px rgba(255, 0, 170, .6), 0 0 80px rgba(255, 0, 170, .35);
+      overflow: hidden;
+      background: #000;
     }
 
-    #yt{
-      width:100%;
-      aspect-ratio:16/9;
-      display:block;
-      border:0;
-    }
-
-    /* restricted */
-    .player .restricted-area .restricted-info-block{
-      display:none;
-      position:absolute; inset:0;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
-      gap:10px;
-      color:#ffd6ef;
-      font-size:24px;
-      font-weight:900;
-      text-align:start;
+    .player .restricted-area .restricted-info-block {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+      color: #ffd6ef;
+      font-size: 24px;
+      font-weight: 900;
+      text-align: center;
       transition: all .5s;
-      border-radius:15px;
+      border-radius: 15px;
       backdrop-filter: blur(0px);
-      background: rgba(0,0,0,0);
-      z-index:5;
-      padding:18px;
+      background: rgba(0, 0, 0, 0);
+      padding: 18px;
     }
-    .player.restricted .restricted-area{
-      display:flex;
-      position:absolute; inset:0;
-      align-items:center; justify-content:center;
-      flex-direction:column;
-      z-index:4;
+
+    .player.restricted .restricted-area {
+      display: flex;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+      color: #ffd6ef;
+      font-size: 24px;
+      font-weight: 900;
+      transition: all .5s;
+      border-radius: 15px;
+      backdrop-filter: blur(0px);
+      background: rgba(0, 0, 0, 0);
     }
-    .player.restricted #ytthumb{
-      display:block;
-      width:100%;
-      height:100%;
-      object-fit:cover;
+
+    .player.restricted #ytthumb {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
-    .player #ytthumb{ display:none; }
-    .player.restricted .restricted-area .restricted-info-block{
-      display:flex;
+
+    .player #ytthumb {
+      display: none;
+    }
+
+    .player.restricted .restricted-area .restricted-info-block {
+      display: flex;
       backdrop-filter: blur(10px) grayscale(.5);
-      background: rgba(0,0,0,.4);
+      background: rgba(0, 0, 0, .45);
+      border: 1px solid rgba(255, 0, 170, .25);
+      border-radius: 14px;
+      max-width: 92%;
     }
 
-    /* ВОТ ТУТ ПОДПИСЬ ПОД ВИДОСОМ */
-    .video-info-block{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
+    /* ====== ПОДПИСЬ ПОД ВИДОСОМ (ЮТУБ-СТАЙЛ) ====== */
+    .video-info-block {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
 
-      padding:10px 14px;
-      border-top:1px solid rgba(255,0,170,.18);
+      padding: 12px 14px;
+      border-top: 1px solid rgba(255, 0, 170, .18);
 
-      background:rgba(0,0,0,.35);
+      background: rgba(0, 0, 0, .35);
       backdrop-filter: blur(10px);
 
-      color:#ffd6ef;
-      font-size:12px;
-      opacity:.85;
-    }
-    #videoName, #videoAuthor{
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-    }
-    #videoName{ max-width:70%; }
-    #videoAuthor{ max-width:30%; text-align:right; opacity:.85; }
-
-    .side{
-      display:flex;
-      flex-direction:column;
-      gap:12px;
+      color: #ffd6ef;
     }
 
-    .gif{
-      width:100%;
-      border-radius:16px;
-      border:2px solid rgba(0,255,255,.35);
-      box-shadow:0 0 25px rgba(0,255,255,.35);
-      overflow:hidden;
-      background:rgba(0,0,0,.3);
-    }
-    .gif img{ width:100%; display:block; }
-
-    .panel{
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(0,0,0,.25);
-      padding:12px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
+    .vi-left,
+    .vi-right {
+      min-width: 0;
     }
 
-    .input{
-      width:100%;
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.35);
-      background:rgba(255,255,255,.06);
-      color:#ffd6ef;
-      outline:none;
-    }
-    .input::placeholder{ color:rgba(255,214,239,.6); }
-
-    .small{
-      font-size:12px;
-      opacity:.7;
-      line-height:1.4;
-      color:#ffd6ef;
+    .vi-left {
+      flex: 1 1 auto;
     }
 
-    .status{
-      font-size:12px;
-      padding:8px 10px;
-      border-radius:12px;
-      border:1px solid rgba(255,0,170,.18);
-      background:rgba(255,0,170,.08);
-      color:#ffd6ef;
-      min-height:34px;
-      display:flex;
-      align-items:center;
+    .vi-right {
+      flex: 0 0 280px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      align-items: center;
+      text-align: right;
     }
 
-    .overlay-foot{
-      padding:10px 14px 14px;
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      border-top:1px solid rgba(255,0,170,.18);
-      color:#ff9fe8;
-      font-size:12px;
-      opacity:.75;
+    .vi-label {
+      font-size: 11px;
+      opacity: .55;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .vi-title {
+      font-size: 13px;
+      font-weight: 900;
+      opacity: .95;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .vi-author-wrap {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+    }
+
+    .vi-author {
+      font-size: 12px;
+      opacity: .9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 220px;
+    }
+
+    .vi-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      flex: 0 0 34px;
+
+      display: grid;
+      place-items: center;
+
+      font-weight: 900;
+      font-size: 12px;
+      color: #150010;
+
+      border: 1px solid rgba(0, 255, 255, .35);
+      box-shadow: 0 0 18px rgba(0, 255, 255, .25);
+
+      background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, .55), rgba(255, 255, 255, .0) 55%),
+        linear-gradient(135deg, rgba(0, 255, 255, .9), rgba(255, 47, 191, .95));
+      user-select: none;
+    }
+
+    #yt {
+      width: 100%;
+      aspect-ratio: 16/9;
+      display: block;
+      border: 0;
+      background: #000;
+    }
+
+    .side {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .gif {
+      width: 100%;
+      border-radius: 16px;
+      border: 2px solid rgba(0, 255, 255, .35);
+      box-shadow: 0 0 25px rgba(0, 255, 255, .35);
+      overflow: hidden;
+      background: rgba(0, 0, 0, .3);
+    }
+
+    .gif img {
+      width: 100%;
+      display: block;
+    }
+
+    .panel {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, .10);
+      background: rgba(0, 0, 0, .25);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .35);
+      background: rgba(255, 255, 255, .06);
+      color: #ffd6ef;
+      outline: none;
+    }
+
+    .input::placeholder {
+      color: rgba(255, 214, 239, .6);
+    }
+
+    .small {
+      font-size: 12px;
+      opacity: .7;
+      line-height: 1.4;
+      color: #ffd6ef;
+    }
+
+    .status {
+      font-size: 12px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 0, 170, .18);
+      background: rgba(255, 0, 170, .08);
+      color: #ffd6ef;
+      min-height: 34px;
+      display: flex;
+      align-items: center;
+    }
+
+    .overlay-foot {
+      padding: 10px 14px 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      border-top: 1px solid rgba(255, 0, 170, .18);
+      color: #ff9fe8;
+      font-size: 12px;
+      opacity: .75;
     }
 
     /* MOBILE */
-    @media (max-width:900px){
-      .overlay-body{ grid-template-columns:1fr; }
-      .side{ flex-direction:column-reverse; }
+    @media (max-width:900px) {
+      .overlay-body {
+        grid-template-columns: 1fr;
+      }
+
+      .side {
+        flex-direction: column-reverse;
+      }
     }
-    @media (max-width:600px){
-      .card{padding:32px 26px}
-      .logo{width:72px}
-      h1{font-size:44px}
-      p{font-size:14px}
-      .btn{padding:14px 22px;font-size:15px}
+
+    @media (max-width:600px) {
+      .card {
+        padding: 32px 26px
+      }
+
+      .logo {
+        width: 72px
+      }
+
+      h1 {
+        font-size: 44px
+      }
+
+      p {
+        font-size: 14px
+      }
+
+      .btn {
+        padding: 14px 22px;
+        font-size: 15px
+      }
     }
-    @media (max-width:500px){
-      #ov{ padding:10px; }
-      .overlay-top{ padding:10px; gap:10px; flex-wrap:wrap; }
-      .overlay-body{ padding:10px; gap:10px; }
-      .gif{ max-height:200px; }
-      .gif img{ max-height:200px; width:100%; object-fit:contain; }
-      .input{ font-size:16px; } /* iOS zoom fix */
-      .overlay-foot{ flex-direction:column; gap:6px; }
+
+    /* ===== FIX ТОЛЬКО ДЛЯ МОБИЛКИ ===== */
+    @media (max-width:500px) {
+      #ov {
+        padding: 10px;
+      }
+
+      .overlay-top {
+        padding: 10px;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .overlay-body {
+        padding: 10px;
+        gap: 10px;
+      }
+
+      .gif {
+        max-height: 200px;
+      }
+
+      .gif img {
+        max-height: 200px;
+        width: 100%;
+        object-fit: contain;
+      }
+
+      .input {
+        font-size: 16px;
+      }
+
+      .overlay-foot {
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .video-info-block {
+        flex-direction: column;
+      }
+
+      .vi-right {
+        flex: 1 1 auto;
+        width: 100%;
+        justify-content: flex-start;
+        text-align: left;
+      }
+
+      .vi-author-wrap {
+        align-items: flex-start;
+      }
+
+      .vi-author {
+        max-width: 100%;
+      }
     }
   </style>
 </head>
@@ -435,17 +660,30 @@
           <div class="restricted-area" id="restricted-area">
             <img id="ytthumb" src="" alt="">
             <div class="restricted-info-block" id="restricted-info-block">
-              <span>Это видео запретили на гамно</span>
-              <span>для просмотра видео кликните на <a href="https://youtube.com" id="ytlink-restricted">youtube</a></span>
+              <span>это видео запретили на гамно</span>
+              <span style="font-size:14px;opacity:.85;font-weight:700">
+                для просмотра кликай на
+                <a href="https://youtube.com" id="ytlink-restricted" style="color:#00ffff">youtube</a>
+              </span>
             </div>
           </div>
 
           <iframe id="yt" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
-          <!-- ПОДПИСЬ ПОД ВИДЕО -->
+          <!-- ПОДПИСЬ ПОД ВИДОСОМ -->
           <div class="video-info-block" id="videoInfo">
-            <span id="videoName">—</span>
-            <span id="videoAuthor">—</span>
+            <div class="vi-left">
+              <div class="vi-label">название</div>
+              <div class="vi-title" id="videoName" title="—">—</div>
+            </div>
+
+            <div class="vi-right">
+              <div class="vi-avatar" id="authorAvatar" title="—">??</div>
+              <div class="vi-author-wrap">
+                <div class="vi-label">автор</div>
+                <div class="vi-author" id="videoAuthor" title="—">—</div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -472,13 +710,17 @@
   </div>
 
   <script>
-    class RootHandler{
+    class RootHandler {
       static root = document.documentElement;
-      static setProperty(property, value){ this.root.style.setProperty(property, value); }
-      static getProperty(property){ return this.root.style.getPropertyValue(property); }
+      static setProperty(property, value) {
+        this.root.style.setProperty(property, value);
+      }
+      static getProperty(property) {
+        return this.root.style.getPropertyValue(property);
+      }
     }
 
-    class StatusHandler{
+    class StatusHandler {
       static colors = {
         ok: "var(--btn-ok-color)",
         error: "var(--btn-error-color)",
@@ -487,21 +729,19 @@
         default: "var(--btn-def-color)"
       }
 
-      constructor(el){
+      constructor(el) {
         this.statusEl = el;
         this.prevText = this.statusEl.textContent;
       }
 
-      async set(t, color = StatusHandler.colors.default){
+      async set(t, color = StatusHandler.colors.default) {
         this.statusEl.textContent = t;
         RootHandler.setProperty("--btn-status-color", color);
         this.statusEl.style.animation = "statusUpdate .8s cubic-bezier(.15, .79, .16, 1) forwards";
-
         setTimeout(() => {
           RootHandler.setProperty("--btn-status-color", StatusHandler.colors.default);
           this.statusEl.style.animation = "";
         }, 800);
-
         setTimeout(() => {
           this.statusEl.textContent = this.prevText;
         }, 2000);
@@ -513,13 +753,18 @@
     const ov = document.getElementById("ov");
     const yt = document.getElementById("yt");
     const statusEl = document.getElementById("status");
+    const playerEl = document.getElementById("player");
+
+    const nameEl = document.getElementById("videoName");
+    const authorEl = document.getElementById("videoAuthor");
+    const avatarEl = document.getElementById("authorAvatar");
+
+    function setStatus(t) { statusEl.textContent = t; }
     const statusHandler = new StatusHandler(document.getElementById("send"));
 
-    function setStatus(t){ statusEl.textContent = t; }
-
-    // v2: { id, video_name, video_author_name, is_embeddable }
-    async function requestRandomVideo(){
-      try{
+    // v2
+    async function requestRandomVideo() {
+      try {
         const r = await fetch(`${apiHost}/v2/get_random`).then(r => r.json());
         return {
           Id: r.id,
@@ -527,19 +772,20 @@
           VideoAuthorName: r.video_author_name,
           IsEmbeddable: r.is_embeddable
         };
-      }catch(e){
+      } catch (e) {
         console.error(e);
         return null;
       }
     }
 
-    async function requestAddVideo(video_id){
-      if(!video_id){
+    // v2
+    async function requestAddVideo(video_id) {
+      if (!video_id) {
         return { Error: 400 };
       }
-      try{
-        const resp = await fetch(`${apiHost}/v2/add?id=${encodeURIComponent(video_id)}`, { method:"POST" });
-        if(!resp.ok){
+      try {
+        const resp = await fetch(`${apiHost}/v2/add?id=${encodeURIComponent(video_id)}`, { method: "POST" });
+        if (!resp.ok) {
           return { Error: resp.status };
         }
         const r = await resp.json();
@@ -550,88 +796,99 @@
           IsEmbeddable: r.is_embeddable,
           Error: null
         };
-      }catch(e){
+      } catch (e) {
         console.error(e);
-        return { Error: e };
+        return { Error: 500 };
       }
     }
 
-    function normalizeUrl(u){
+    function normalizeUrl(u) {
       const s = (u || "").trim();
-      if(!s) return "";
-      if(s.startsWith("youtu.be/") || s.startsWith("www.youtube.com") || s.startsWith("youtube.com")){
+      if (!s) return "";
+      if (s.startsWith("youtu.be/") || s.startsWith("www.youtube.com") || s.startsWith("youtube.com")) {
         return "https://" + s;
       }
       return s;
     }
 
-    function parseYouTubeVideoId(url){
-      try{
+    function parseYouTubeVideoId(url) {
+      try {
         const fixed = normalizeUrl(url);
         const urlObj = new URL(fixed);
         let id = null;
 
-        if(urlObj.hostname === "youtu.be"){
+        if (urlObj.hostname === "youtu.be") {
           id = urlObj.pathname.slice(1).split("?")[0];
         }
 
-        if(urlObj.hostname === "www.youtube.com" || urlObj.hostname === "youtube.com" || urlObj.hostname === "m.youtube.com"){
-          if(urlObj.pathname === "/watch") id = urlObj.searchParams.get("v");
-          if(urlObj.pathname.startsWith("/embed/")) id = urlObj.pathname.split("/")[2];
-          if(urlObj.pathname.startsWith("/v/")) id = urlObj.pathname.split("/")[2];
-          if(urlObj.pathname.startsWith("/shorts/")) id = urlObj.pathname.split("/")[2];
+        if (urlObj.hostname === "www.youtube.com" || urlObj.hostname === "youtube.com" || urlObj.hostname === "m.youtube.com") {
+          if (urlObj.pathname === "/watch") id = urlObj.searchParams.get("v");
+          if (urlObj.pathname.startsWith("/embed/")) id = urlObj.pathname.split("/")[2];
+          if (urlObj.pathname.startsWith("/v/")) id = urlObj.pathname.split("/")[2];
+          if (urlObj.pathname.startsWith("/shorts/")) id = urlObj.pathname.split("/")[2];
         }
 
-        if(!id || id.length !== 11) return null;
+        if (!id || id.length !== 11) return null;
         return id;
-      }catch(e){
+      } catch (e) {
         return null;
       }
     }
 
-    async function getYTthumb(id){
+    function openOverlay() {
+      ov.style.display = "flex";
+      ov.setAttribute("aria-hidden", "false");
+    }
+
+    function closeOverlay() {
+      ov.style.display = "none";
+      ov.setAttribute("aria-hidden", "true");
+      yt.src = "";
+      playerEl.classList.remove("restricted");
+      document.getElementById("ytthumb").src = "";
+    }
+
+    async function getYTthumb(id) {
       const res = await fetch(`https://img.youtube.com/vi/${id}/sddefault.jpg`);
       return res.url;
     }
 
-    function openOverlay(){
-      ov.style.display = "flex";
-      ov.setAttribute("aria-hidden","false");
+    function setVideoMeta(name, author) {
+      const safeName = (name && String(name).trim()) ? String(name).trim() : "без названия";
+      const safeAuthor = (author && String(author).trim()) ? String(author).trim() : "неизвестный автор";
+
+      nameEl.textContent = safeName;
+      authorEl.textContent = safeAuthor;
+
+      nameEl.title = safeName;
+      authorEl.title = safeAuthor;
+      avatarEl.title = safeAuthor;
+
+      // аватар = первые 1–2 буквы автора
+      const letters = safeAuthor.replace(/[^a-zA-Zа-яА-Я0-9]/g, "").slice(0, 2).toUpperCase();
+      avatarEl.textContent = letters || "??";
     }
 
-    function closeOverlay(){
-      ov.style.display = "none";
-      ov.setAttribute("aria-hidden","true");
-      yt.src = "";
-      document.getElementById("videoName").textContent = "—";
-      document.getElementById("videoAuthor").textContent = "—";
-      document.getElementById("player").classList.remove("restricted");
-      document.getElementById("ytthumb").src = "";
-    }
-
-    async function openRandom(){
+    async function openRandom() {
       setStatus("ищу рандом...");
       const r = await requestRandomVideo();
-
-      if(!r){
+      if (!r) {
         setStatus("не получилось получить рандом (сервер/инет).");
-        await statusHandler.set("ошибка рандома", StatusHandler.colors.error);
+        await statusHandler.set("нет рандома", StatusHandler.colors.error);
         return;
       }
 
-      // подпись под видео
-      document.getElementById("videoName").textContent = r.VideoName || "без названия";
-      document.getElementById("videoAuthor").textContent = r.VideoAuthorName || "неизвестный автор";
+      setVideoMeta(r.VideoName, r.VideoAuthorName);
 
-      if(!r.IsEmbeddable){
+      if (!r.IsEmbeddable) {
         setStatus("это видео нельзя встроить. откроется только на youtube.");
         const thumb = await getYTthumb(r.Id);
         document.getElementById("ytthumb").src = thumb;
-        document.getElementById("player").classList.add("restricted");
+        playerEl.classList.add("restricted");
         document.getElementById("ytlink-restricted").href = `https://www.youtube.com/watch?v=${r.Id}`;
-      }else{
+      } else {
         setStatus("успешно загружено!");
-        document.getElementById("player").classList.remove("restricted");
+        playerEl.classList.remove("restricted");
       }
 
       yt.src = `https://www.youtube.com/embed/${r.Id}?autoplay=1`;
@@ -646,26 +903,29 @@
       const url = document.getElementById("sendurl").value;
       const id = parseYouTubeVideoId(url);
 
-      if(!id){
-        await statusHandler.set("Invalid URL", StatusHandler.colors.error);
+      if (!id) {
         setStatus("Invalid URL (юрл инвалид)");
+        await statusHandler.set("invalid url", StatusHandler.colors.error);
         return;
       }
 
-      await statusHandler.set("отправляю...", StatusHandler.colors.info);
       setStatus("отправляю на сервер...");
+      await statusHandler.set("отправляю...", StatusHandler.colors.info);
+
       const res = await requestAddVideo(id);
 
-      if(res.Error === null){
-        setStatus(res.IsEmbeddable ? "отправлено." : "отправлено, но не встраивается (только youtube).");
+      if (res.Error === null) {
+        setStatus(res.IsEmbeddable ? "отправлено." : "отправлено, но это видео нельзя встроить.");
         await statusHandler.set("успешно", res.IsEmbeddable ? StatusHandler.colors.ok : StatusHandler.colors.warning);
-      }else if(res.Error === 409){
+        // можно сразу обновить мету под превью (если сервер вернул)
+        setVideoMeta(res.VideoName, res.VideoAuthorName);
+      } else if (res.Error === 409) {
         setStatus("Video already exists");
         await statusHandler.set("уже есть", StatusHandler.colors.error);
-      }else if(res.Error === 400){
+      } else if (res.Error === 400) {
         setStatus("Invalid video ID");
         await statusHandler.set("неверный id", StatusHandler.colors.error);
-      }else{
+      } else {
         setStatus("Something went wrong");
         await statusHandler.set("ошибка", StatusHandler.colors.error);
       }
@@ -673,8 +933,12 @@
       document.getElementById("sendurl").value = "";
     };
 
-    ov.addEventListener("click", (e) => { if(e.target === ov) closeOverlay(); });
-    document.addEventListener("keydown", (e) => { if(e.key === "Escape") closeOverlay(); });
+    ov.addEventListener("click", (e) => { if (e.target === ov) closeOverlay(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeOverlay(); });
+
+    // дефолтные значения, чтобы не было пусто
+    setVideoMeta("—", "—");
   </script>
 </body>
+
 </html>

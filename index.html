@@ -150,6 +150,47 @@
       }
     }
 
+    :root {
+      --btn-def-color: linear-gradient(90deg, #ff2fbf, #ff6fe3);
+      --btn-ok-color: linear-gradient(90deg, #55f7d4, #8dff35);
+      --btn-error-color: linear-gradient(90deg, #ff3636, #af264b);
+      --btn-warning-color: linear-gradient(90deg, #d5ef54, #ffdd00);
+      --btn-info-color: linear-gradient(90deg, #00ffff, #00ffff);
+      --btn-status-color: var(--btn-def-color);
+      --btn-status-animation: statusUpdate .8s cubic-bezier(.15, .79, .16, 1) forwards;
+    }
+
+    @keyframes statusUpdate {
+      0% {
+        transform: translateY(0px) scale(1) rotate(0deg);
+        background: var(--btn-def-color);
+      }
+
+      25% {
+        transform: translateY(0px) scale(1.03) rotate(1deg);
+        background: var(--btn-status-color);
+      }
+
+      75% {
+        transform: translateY(0px) scale(1.03) rotate(-1deg);
+        background: var(--btn-status-color);
+      }
+
+      100% {
+        transform: translateY(0px) scale(1) rotate(0deg);
+        background: var(--btn-def-color);
+      }
+    }
+
+    .status-send {
+      transition: all .4s ease-in-out;
+      backdrop-filter: blur(12px);
+    }
+
+    .status-send.new-status {
+      animation: statusUpdate .8s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+    }
+
     p {
       opacity: .75;
       margin-bottom: 26px;
@@ -168,16 +209,17 @@
       cursor: pointer;
       padding: 14px 34px;
       border-radius: 999px;
-      background: linear-gradient(90deg, #ff2fbf, #ff6fe3);
+      background: var(--btn-def-color);
       color: #160010;
       font-weight: 800;
       letter-spacing: 1px;
       box-shadow: 0 0 14px rgba(255, 47, 191, .8), 0 0 40px rgba(255, 47, 191, .6);
-      transition: .2s;
+      transition: all .8s cubic-bezier(.15, .79, .16, 1);
+      transition: background-color .8s cubic-bezier(.15, .79, .16, 1);
     }
 
     .btn:hover {
-      transform: translateY(-2px) scale(1.02);
+      /* transform: translateY(-2px) scale(1.02); */
       box-shadow: 0 0 22px rgba(255, 47, 191, 1), 0 0 70px rgba(255, 47, 191, .9);
     }
 
@@ -562,7 +604,7 @@
           <div class="panel">
             <div class="small">отправь своё видео (любой формат: youtu.be / watch?v=)</div>
             <input class="input" type="text" id="sendurl" placeholder="https://youtu.be/dQw4w9WgXcQ">
-            <button class="btn" id="send">➕ добавить в рандом</button>
+            <button class="btn status-send" id="send">➕ добавить в рандом</button>
             <div class="status" id="status">готов.</div>
             <button class="btn secondary" id="open2" title="Откроет новое рандомное">🎲 новое</button>
           </div>
@@ -581,6 +623,55 @@
   </div>
 
   <script>
+    class RootHandler {
+      static root = document.documentElement;
+      static setProperty(property, value) {
+        this.root.style.setProperty(property, value);
+      }
+      static getProperty(property) {
+        return this.root.style.getPropertyValue(property);
+      }
+    }
+
+    class StatusHandler {
+      static colors = {
+        ok: "var(--btn-ok-color)",
+        error: "var(--btn-error-color)",
+        warning: "var(--btn-warning-color)",
+        info: "var(--btn-info-color)",
+        default: "var(--btn-def-color)"
+      }
+      //change var(--btn-status-color) to change color of status
+
+      static setColor(color) {
+        RootHandler.setProperty("--btn-status-color", color);
+      }
+
+      static setAnimation(animation) {
+        RootHandler.setProperty("--btn-status-animation", animation);
+      }
+
+
+
+      constructor(el) {
+        this.statusEl = el;
+        this.animation = RootHandler.getProperty("--btn-status-animation");
+        this.prevText = this.statusEl.textContent;
+      }
+
+      async set(t, color = StatusHandler.colors.default) {
+        this.statusEl.textContent = t;
+        RootHandler.setProperty("--btn-status-color", color);
+        this.statusEl.style.animation = "statusUpdate .8s cubic-bezier(.15, .79, .16, 1) forwards";
+        await setTimeout(() => {
+          RootHandler.setProperty("--btn-status-color", StatusHandler.colors.default);
+          this.statusEl.style.animation = "";
+        }, 800);
+        setTimeout(() => {
+          this.statusEl.textContent = this.prevText;
+        }, 2000);
+      }
+    }
     const apiHost = "https://api.femboyz.cloud:1488";
 
     const ov = document.getElementById("ov");
@@ -588,6 +679,8 @@
     const statusEl = document.getElementById("status");
 
     function setStatus(t) { statusEl.textContent = t; }
+
+    const statusHandler = new StatusHandler(document.getElementById("send"));
 
     // v2
     // template: { id: "11chars", video_name: "", video_author_name: "", is_embeddable: true | false }
@@ -615,12 +708,24 @@
         return "Invalid id";
       }
       try {
-        const r = await fetch(`${apiHost}/v2/add?id=${encodeURIComponent(video_id)}`, { method: "POST" }).then(r => r.json());
+        const r = await fetch(`${apiHost}/v2/add?id=${encodeURIComponent(video_id)}`, { method: "POST" });
+        if (!r.ok) {
+          //return error code 409 or 400
+          return {
+            Id: null,
+            VideoName: null,
+            VideoAuthorName: null,
+            IsEmbeddable: false,
+            Error: r.status
+          };
+        }
+        r = await r.json();
         return {
           Id: r.id,
           VideoName: r.video_name,
           VideoAuthorName: r.video_author_name,
-          IsEmbeddable: r.is_embeddable
+          IsEmbeddable: r.is_embeddable,
+          Error: null
         };
       } catch (e) {
         console.error(e);
@@ -628,7 +733,8 @@
           Id: null,
           VideoName: null,
           VideoAuthorName: null,
-          IsEmbeddable: false
+          IsEmbeddable: false,
+          Error: e
         };
       }
     }
@@ -682,6 +788,7 @@
       console.log(r);
       if (!r) {
         setStatus("не получилось получить рандом (сервер/инет).");
+        await statusHandler.set("не получилось получить рандом (сервер/инет).", StatusHandler.colors.error);
         return;
       }
 
@@ -693,7 +800,7 @@
         document.getElementById("player").classList.add("restricted");
         document.getElementById("ytlink-restricted").href = `https://www.youtube.com/watch?v=${r.Id}`;
       } else {
-        setStatus("поехали.");
+        setStatus("успешно загружено!");
         document.getElementById("player").classList.remove("restricted");
       }
 
@@ -715,13 +822,32 @@
       const id = parseYouTubeVideoId(url);
 
       if (!id) {
+        await statusHandler.set("Invalid URL (юрл инвалид)", StatusHandler.colors.error);
         setStatus("Invalid URL (юрл инвалид)");
         return;
       }
 
+      await statusHandler.set("отправляю на сервер...", StatusHandler.colors.info);
       setStatus("отправляю на сервер...");
       const res = await requestAddVideo(id);
-      setStatus(res.IsEmbeddable ? "отправлено." : "отправлено, но это видео нельзя встроить. оно откроется только на youtube.");
+      switch (res.Error) {
+        case null:
+          setStatus(res.IsEmbeddable ? "отправлено." : "отправлено, но это видео нельзя встроить. оно откроется только на youtube.");
+          await statusHandler.set("Успешно отправлено", res.IsEmbeddable ? StatusHandler.colors.success : StatusHandler.colors.warning);
+          break;
+        case 409:
+          setStatus("Video already exists");
+          await statusHandler.set("Видео уже существует", StatusHandler.colors.error);
+          break;
+        case 400:
+          setStatus("Invalid video ID");
+          await statusHandler.set("Неверный ID видео", StatusHandler.colors.error);
+          break;
+        default:
+          setStatus("Something went wrong");
+          await statusHandler.set("Что-то пошло не так", StatusHandler.colors.error);
+          break;
+      }
       document.getElementById("sendurl").value = "";
     };
 

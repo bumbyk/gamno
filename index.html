@@ -1,206 +1,680 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="icon" href="favicon-32x32.png">
-<title>гамно</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="referrer" content="no-referrer-when-downgrade">
+  <link rel="icon" href="favicon-32x32.png">
+  <title>гамно</title>
 
-<style>
-*{box-sizing:border-box;margin:0;font-family:Arial,Helvetica,sans-serif}
-body{
-  min-height:100vh;
-  color:#ffe6f2;
-  background:
-    radial-gradient(1200px 500px at 50% -10%, rgba(255,0,170,.18), transparent 40%),
-    radial-gradient(800px 400px at 10% 110%, rgba(0,255,255,.12), transparent 40%),
-    #06030a;
-}
+  <style>
+    * { box-sizing: border-box; margin: 0; font-family: Arial, Helvetica, sans-serif; }
+    html { scroll-behavior: smooth; }
 
-/* NAV */
-.nav{position:sticky;top:0;z-index:1000;background:rgba(6,3,10,.55);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,0,170,.25)}
-.nav-inner{max-width:1100px;margin:0 auto;padding:10px 14px;display:flex;align-items:center}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#ffd6ef;font-weight:900}
-.brand img{width:28px;filter:drop-shadow(0 0 10px rgba(255,47,191,.8))}
+    body{
+      min-height:100vh;
+      color:#ffe6f2;
+      background:
+        radial-gradient(1200px 500px at 50% -10%, rgba(255,0,170,.18), transparent 40%),
+        radial-gradient(800px 400px at 10% 110%, rgba(0,255,255,.12), transparent 40%),
+        #06030a;
+    }
 
-/* MAIN */
-.container{max-width:1100px;margin:0 auto;padding:40px 14px}
-.card{
-  max-width:760px;margin:auto;padding:52px 64px;text-align:center;
-  border-radius:22px;
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,0,170,.35);
-  box-shadow:0 0 40px rgba(255,0,170,.25);
-}
-.logo{width:96px;margin:0 auto 12px;display:block}
-h1{font-size:68px;color:#ff4fd8;text-shadow:0 0 20px #ff2fbf}
-p{opacity:.75;margin-bottom:26px}
-.btn{
-  border:0;cursor:pointer;
-  padding:14px 34px;border-radius:999px;
-  background:linear-gradient(90deg,#ff2fbf,#ff6fe3);
-  font-weight:800;
-}
-.btn.secondary{
-  background:rgba(255,255,255,.08);
-  color:#ffd6ef;
-  border:1px solid rgba(255,0,170,.35);
-}
+    /* NAV */
+    .nav{
+      position:sticky; top:0; z-index:1000;
+      background:rgba(6,3,10,.55);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(255,0,170,.25);
+    }
+    .nav-inner{
+      max-width:1100px;
+      margin:0 auto;
+      padding:10px 14px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      text-decoration:none; color:#ffd6ef;
+      font-weight:900; letter-spacing:1px;
+    }
+    .brand img{
+      width:28px;
+      filter: drop-shadow(0 0 10px rgba(255,47,191,.8));
+    }
+    .nav-links{
+      margin-left:auto;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .nav-links a{
+      text-decoration:none;
+      color:#ffd6ef;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,0,170,.25);
+      background:rgba(255,255,255,.03);
+      transition:.2s;
+      font-size:14px;
+      white-space:nowrap;
+    }
+    .nav-links a:hover{
+      transform:translateY(-1px);
+      border-color:rgba(255,0,170,.55);
+      box-shadow:0 0 18px rgba(255,47,191,.25);
+    }
 
-/* OVERLAY */
-#ov{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(5,0,8,.88);z-index:999;padding:24px}
-.overlay-card{
-  width:min(1080px,96vw);
-  border-radius:22px;
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,0,170,.35);
-  backdrop-filter:blur(14px);
-}
-.overlay-top{
-  padding:14px;
-  display:flex;
-  justify-content:space-between;
-  border-bottom:1px solid rgba(255,0,170,.18);
-}
-.overlay-body{
-  display:grid;
-  grid-template-columns:1fr 260px;
-  gap:14px;
-  padding:14px;
-}
+    /* LAYOUT */
+    .container{max-width:1100px;margin:0 auto;padding:26px 14px 60px}
+    .section{padding:18px 0}
+    .grid{display:grid;gap:18px;justify-items:center}
 
-/* PLAYER */
-.player{
-  border-radius:16px;
-  border:2px solid rgba(255,0,170,.6);
-  overflow:hidden;
-  background:#000;
-}
-#yt{
-  width:100%;
-  aspect-ratio:16/9;
-  border:0;
-  display:block;
-}
+    .card{
+      width:min(760px,100%);
+      padding:52px 64px;
+      text-align:center;
+      border-radius:22px;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,0,170,.35);
+      box-shadow:
+        0 0 40px rgba(255,0,170,.25),
+        0 0 120px rgba(255,0,170,.15),
+        inset 0 0 30px rgba(255,255,255,.05);
+      backdrop-filter:blur(12px);
+    }
 
-/* INFO UNDER VIDEO */
-.video-info-block{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:10px 14px;
-  background:rgba(0,0,0,.35);
-  backdrop-filter:blur(10px);
-  font-size:13px;
-}
-#videoName{
-  font-weight:700;
-  max-width:70%;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-#videoAuthor{opacity:.7}
+    .logo{
+      width:96px;
+      margin:0 auto 12px;
+      display:block;
+      filter: drop-shadow(0 0 12px rgba(255,47,191,.9))
+              drop-shadow(0 0 36px rgba(255,47,191,.6));
+    }
 
-/* SIDE */
-.side{display:flex;flex-direction:column;gap:12px}
-.panel{
-  padding:12px;
-  background:rgba(0,0,0,.25);
-  border-radius:16px;
-}
-.input{
-  width:100%;
-  padding:10px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.3);
-  background:rgba(255,255,255,.06);
-  color:#ffd6ef;
-}
-.status{font-size:12px;opacity:.7}
+    h1{
+      font-size:68px;
+      letter-spacing:3px;
+      margin-bottom:14px;
+      color:#ff4fd8;
+      text-shadow:
+        0 0 6px #ff4fd8,
+        0 0 16px #ff4fd8,
+        0 0 40px #ff2fbf,
+        0 0 90px rgba(255,47,191,.8);
+      animation: neon 2.2s ease-in-out infinite;
+    }
+    @keyframes neon{
+      0%,100%{filter:brightness(1)}
+      50%{filter:brightness(1.25)}
+    }
 
-/* MOBILE */
-@media(max-width:900px){
-  .overlay-body{grid-template-columns:1fr}
-}
-@media(max-width:600px){
-  .card{padding:32px}
-  h1{font-size:44px}
-}
-</style>
+    :root{
+      --btn-def-color: linear-gradient(90deg, #ff2fbf, #ff6fe3);
+      --btn-ok-color: linear-gradient(90deg, #55f7d4, #8dff35);
+      --btn-error-color: linear-gradient(90deg, #ff3636, #af264b);
+      --btn-warning-color: linear-gradient(90deg, #d5ef54, #ffdd00);
+      --btn-info-color: linear-gradient(90deg, #00ffff, #00ffff);
+      --btn-status-color: var(--btn-def-color);
+    }
+
+    @keyframes statusUpdate{
+      0%   { transform: translateY(0px) scale(1) rotate(0deg); background: var(--btn-def-color); }
+      25%  { transform: translateY(0px) scale(1.03) rotate(1deg); background: var(--btn-status-color); }
+      75%  { transform: translateY(0px) scale(1.03) rotate(-1deg); background: var(--btn-status-color); }
+      100% { transform: translateY(0px) scale(1) rotate(0deg); background: var(--btn-def-color); }
+    }
+
+    p{opacity:.75;margin-bottom:26px;color:#ffd6ef}
+
+    .btns{
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      border:0; cursor:pointer;
+      padding:14px 34px;
+      border-radius:999px;
+      background:var(--btn-def-color);
+      color:#160010;
+      font-weight:800;
+      letter-spacing:1px;
+      box-shadow:0 0 14px rgba(255,47,191,.8), 0 0 40px rgba(255,47,191,.6);
+      transition: all .8s cubic-bezier(.15, .79, .16, 1);
+    }
+    .btn:hover{
+      box-shadow:0 0 22px rgba(255,47,191,1), 0 0 70px rgba(255,47,191,.9);
+    }
+    .btn.secondary{
+      background:rgba(255,255,255,.06);
+      color:#ffd6ef;
+      border:1px solid rgba(255,0,170,.35);
+      box-shadow:none;
+    }
+
+    /* OVERLAY */
+    #ov{
+      position:fixed; inset:0;
+      display:none;
+      align-items:center; justify-content:center;
+      background:rgba(5,0,8,.88);
+      z-index:999;
+      padding:24px;
+    }
+
+    .overlay-card{
+      width:min(1080px, 96vw);
+      border-radius:22px;
+      border:1px solid rgba(255,0,170,.35);
+      background:rgba(255,255,255,.03);
+      backdrop-filter: blur(14px);
+      box-shadow:0 0 60px rgba(255,47,191,.18);
+      overflow:hidden;
+    }
+
+    .overlay-top{
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 14px;
+      border-bottom:1px solid rgba(255,0,170,.18);
+    }
+
+    .overlay-title{
+      font-weight:900;
+      letter-spacing:1px;
+      color:#ffd6ef;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      user-select:none;
+    }
+
+    .pill{
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      border:1px solid rgba(0,255,255,.25);
+      background:rgba(0,255,255,.06);
+      color:#bffcff;
+      opacity:.9;
+    }
+
+    .overlay-body{
+      display:grid;
+      grid-template-columns: 1fr 260px;
+      gap:14px;
+      padding:14px;
+      align-items:start;
+    }
+
+    /* PLAYER (важно: flex-column чтобы подпись была ПОД видео) */
+    .player{
+      position:relative;
+      border-radius:16px;
+      border:2px solid rgba(255,0,170,.6);
+      box-shadow:0 0 30px rgba(255,0,170,.6), 0 0 80px rgba(255,0,170,.35);
+      overflow:hidden;
+      background:#000;
+      display:flex;
+      flex-direction:column;
+    }
+
+    #yt{
+      width:100%;
+      aspect-ratio:16/9;
+      display:block;
+      border:0;
+    }
+
+    /* restricted */
+    .player .restricted-area .restricted-info-block{
+      display:none;
+      position:absolute; inset:0;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      gap:10px;
+      color:#ffd6ef;
+      font-size:24px;
+      font-weight:900;
+      text-align:start;
+      transition: all .5s;
+      border-radius:15px;
+      backdrop-filter: blur(0px);
+      background: rgba(0,0,0,0);
+      z-index:5;
+      padding:18px;
+    }
+    .player.restricted .restricted-area{
+      display:flex;
+      position:absolute; inset:0;
+      align-items:center; justify-content:center;
+      flex-direction:column;
+      z-index:4;
+    }
+    .player.restricted #ytthumb{
+      display:block;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .player #ytthumb{ display:none; }
+    .player.restricted .restricted-area .restricted-info-block{
+      display:flex;
+      backdrop-filter: blur(10px) grayscale(.5);
+      background: rgba(0,0,0,.4);
+    }
+
+    /* ВОТ ТУТ ПОДПИСЬ ПОД ВИДОСОМ */
+    .video-info-block{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+
+      padding:10px 14px;
+      border-top:1px solid rgba(255,0,170,.18);
+
+      background:rgba(0,0,0,.35);
+      backdrop-filter: blur(10px);
+
+      color:#ffd6ef;
+      font-size:12px;
+      opacity:.85;
+    }
+    #videoName, #videoAuthor{
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    #videoName{ max-width:70%; }
+    #videoAuthor{ max-width:30%; text-align:right; opacity:.85; }
+
+    .side{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .gif{
+      width:100%;
+      border-radius:16px;
+      border:2px solid rgba(0,255,255,.35);
+      box-shadow:0 0 25px rgba(0,255,255,.35);
+      overflow:hidden;
+      background:rgba(0,0,0,.3);
+    }
+    .gif img{ width:100%; display:block; }
+
+    .panel{
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.25);
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .input{
+      width:100%;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.35);
+      background:rgba(255,255,255,.06);
+      color:#ffd6ef;
+      outline:none;
+    }
+    .input::placeholder{ color:rgba(255,214,239,.6); }
+
+    .small{
+      font-size:12px;
+      opacity:.7;
+      line-height:1.4;
+      color:#ffd6ef;
+    }
+
+    .status{
+      font-size:12px;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid rgba(255,0,170,.18);
+      background:rgba(255,0,170,.08);
+      color:#ffd6ef;
+      min-height:34px;
+      display:flex;
+      align-items:center;
+    }
+
+    .overlay-foot{
+      padding:10px 14px 14px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      border-top:1px solid rgba(255,0,170,.18);
+      color:#ff9fe8;
+      font-size:12px;
+      opacity:.75;
+    }
+
+    /* MOBILE */
+    @media (max-width:900px){
+      .overlay-body{ grid-template-columns:1fr; }
+      .side{ flex-direction:column-reverse; }
+    }
+    @media (max-width:600px){
+      .card{padding:32px 26px}
+      .logo{width:72px}
+      h1{font-size:44px}
+      p{font-size:14px}
+      .btn{padding:14px 22px;font-size:15px}
+    }
+    @media (max-width:500px){
+      #ov{ padding:10px; }
+      .overlay-top{ padding:10px; gap:10px; flex-wrap:wrap; }
+      .overlay-body{ padding:10px; gap:10px; }
+      .gif{ max-height:200px; }
+      .gif img{ max-height:200px; width:100%; object-fit:contain; }
+      .input{ font-size:16px; } /* iOS zoom fix */
+      .overlay-foot{ flex-direction:column; gap:6px; }
+    }
+  </style>
 </head>
 
 <body>
-
-<div class="nav">
-  <div class="nav-inner">
-    <a class="brand" href="#">
-      <img src="logo-42.png">
-      GAMNO
-    </a>
-  </div>
-</div>
-
-<div class="container">
-  <div class="card">
-    <img class="logo" src="logo-42.png">
-    <h1>гамно</h1>
-    <p>сайт официального гамна</p>
-    <button class="btn" id="open">▶ смотреть рандом</button>
-  </div>
-</div>
-
-<!-- OVERLAY -->
-<div id="ov">
-  <div class="overlay-card">
-    <div class="overlay-top">
-      <b>GAMNO PLAYER</b>
-      <button class="btn secondary" id="closeBtn">✖</button>
+  <!-- NAV -->
+  <div class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#home">
+        <img src="logo-42.png" alt="42">
+        <span>GAMNO</span>
+      </a>
+      <div class="nav-links">
+        <a href="#home">главная</a>
+      </div>
     </div>
+  </div>
 
-    <div class="overlay-body">
-      <div>
-        <div class="player">
+  <div class="container">
+    <section class="section" id="home">
+      <div class="grid">
+        <div class="card">
+          <img class="logo" src="logo-42.png" alt="42 logo">
+          <h1>гамно</h1>
+          <p>сайт официального гамна</p>
+
+          <div class="btns">
+            <button class="btn" id="open">▶ смотреть рандом</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- OVERLAY -->
+  <div id="ov" aria-hidden="true">
+    <div class="overlay-card" role="dialog" aria-modal="true">
+      <div class="overlay-top">
+        <div class="overlay-title">
+          GAMNO PLAYER <span class="pill">рандом</span>
+        </div>
+        <div class="btns">
+          <button class="btn secondary" id="closeBtn">✖ закрыть</button>
+        </div>
+      </div>
+
+      <div class="overlay-body">
+        <div class="player" id="player">
+          <div class="restricted-area" id="restricted-area">
+            <img id="ytthumb" src="" alt="">
+            <div class="restricted-info-block" id="restricted-info-block">
+              <span>Это видео запретили на гамно</span>
+              <span>для просмотра видео кликните на <a href="https://youtube.com" id="ytlink-restricted">youtube</a></span>
+            </div>
+          </div>
+
           <iframe id="yt" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+          <!-- ПОДПИСЬ ПОД ВИДЕО -->
+          <div class="video-info-block" id="videoInfo">
+            <span id="videoName">—</span>
+            <span id="videoAuthor">—</span>
+          </div>
         </div>
 
-        <!-- INFO UNDER VIDEO -->
-        <div class="video-info-block">
-          <span id="videoName"></span>
-          <span id="videoAuthor"></span>
+        <div class="side">
+          <div class="panel">
+            <div class="small">отправь своё видео (любой формат: youtu.be / watch?v=)</div>
+            <input class="input" type="text" id="sendurl" placeholder="https://youtu.be/dQw4w9WgXcQ">
+            <button class="btn" id="send">➕ добавить в рандом</button>
+            <div class="status" id="status">готов.</div>
+            <button class="btn secondary" id="open2" title="Откроет новое рандомное">🎲 новое</button>
+          </div>
+
+          <div class="gif">
+            <img src="dance.gif" alt="dance gif">
+          </div>
         </div>
       </div>
 
-      <div class="side">
-        <div class="panel">
-          <input class="input" id="sendurl" placeholder="https://youtu.be/...">
-          <button class="btn" id="send">➕ добавить</button>
-          <div class="status" id="status">готов.</div>
-        </div>
+      <div class="overlay-foot">
+        <div>закрыть: клик по фону или esc</div>
+        <div>если видео не встраивается — оно откроется только на youtube</div>
       </div>
     </div>
   </div>
-</div>
 
-<script>
-const apiHost="https://api.femboyz.cloud:1488";
-const ov=document.getElementById("ov");
-const yt=document.getElementById("yt");
+  <script>
+    class RootHandler{
+      static root = document.documentElement;
+      static setProperty(property, value){ this.root.style.setProperty(property, value); }
+      static getProperty(property){ return this.root.style.getPropertyValue(property); }
+    }
 
-async function openRandom(){
-  const r=await fetch(`${apiHost}/v2/get_random`).then(r=>r.json());
-  document.getElementById("videoName").textContent=r.video_name||"без названия";
-  document.getElementById("videoAuthor").textContent=r.video_author_name||"неизвестный автор";
-  yt.src=`https://www.youtube.com/embed/${r.id}?autoplay=1`;
-  ov.style.display="flex";
-}
+    class StatusHandler{
+      static colors = {
+        ok: "var(--btn-ok-color)",
+        error: "var(--btn-error-color)",
+        warning: "var(--btn-warning-color)",
+        info: "var(--btn-info-color)",
+        default: "var(--btn-def-color)"
+      }
 
-document.getElementById("open").onclick=openRandom;
-document.getElementById("closeBtn").onclick=()=>{
-  yt.src="";
-  ov.style.display="none";
-};
-</script>
+      constructor(el){
+        this.statusEl = el;
+        this.prevText = this.statusEl.textContent;
+      }
 
+      async set(t, color = StatusHandler.colors.default){
+        this.statusEl.textContent = t;
+        RootHandler.setProperty("--btn-status-color", color);
+        this.statusEl.style.animation = "statusUpdate .8s cubic-bezier(.15, .79, .16, 1) forwards";
+
+        setTimeout(() => {
+          RootHandler.setProperty("--btn-status-color", StatusHandler.colors.default);
+          this.statusEl.style.animation = "";
+        }, 800);
+
+        setTimeout(() => {
+          this.statusEl.textContent = this.prevText;
+        }, 2000);
+      }
+    }
+
+    const apiHost = "https://api.femboyz.cloud:1488";
+
+    const ov = document.getElementById("ov");
+    const yt = document.getElementById("yt");
+    const statusEl = document.getElementById("status");
+    const statusHandler = new StatusHandler(document.getElementById("send"));
+
+    function setStatus(t){ statusEl.textContent = t; }
+
+    // v2: { id, video_name, video_author_name, is_embeddable }
+    async function requestRandomVideo(){
+      try{
+        const r = await fetch(`${apiHost}/v2/get_random`).then(r => r.json());
+        return {
+          Id: r.id,
+          VideoName: r.video_name,
+          VideoAuthorName: r.video_author_name,
+          IsEmbeddable: r.is_embeddable
+        };
+      }catch(e){
+        console.error(e);
+        return null;
+      }
+    }
+
+    async function requestAddVideo(video_id){
+      if(!video_id){
+        return { Error: 400 };
+      }
+      try{
+        const resp = await fetch(`${apiHost}/v2/add?id=${encodeURIComponent(video_id)}`, { method:"POST" });
+        if(!resp.ok){
+          return { Error: resp.status };
+        }
+        const r = await resp.json();
+        return {
+          Id: r.id,
+          VideoName: r.video_name,
+          VideoAuthorName: r.video_author_name,
+          IsEmbeddable: r.is_embeddable,
+          Error: null
+        };
+      }catch(e){
+        console.error(e);
+        return { Error: e };
+      }
+    }
+
+    function normalizeUrl(u){
+      const s = (u || "").trim();
+      if(!s) return "";
+      if(s.startsWith("youtu.be/") || s.startsWith("www.youtube.com") || s.startsWith("youtube.com")){
+        return "https://" + s;
+      }
+      return s;
+    }
+
+    function parseYouTubeVideoId(url){
+      try{
+        const fixed = normalizeUrl(url);
+        const urlObj = new URL(fixed);
+        let id = null;
+
+        if(urlObj.hostname === "youtu.be"){
+          id = urlObj.pathname.slice(1).split("?")[0];
+        }
+
+        if(urlObj.hostname === "www.youtube.com" || urlObj.hostname === "youtube.com" || urlObj.hostname === "m.youtube.com"){
+          if(urlObj.pathname === "/watch") id = urlObj.searchParams.get("v");
+          if(urlObj.pathname.startsWith("/embed/")) id = urlObj.pathname.split("/")[2];
+          if(urlObj.pathname.startsWith("/v/")) id = urlObj.pathname.split("/")[2];
+          if(urlObj.pathname.startsWith("/shorts/")) id = urlObj.pathname.split("/")[2];
+        }
+
+        if(!id || id.length !== 11) return null;
+        return id;
+      }catch(e){
+        return null;
+      }
+    }
+
+    async function getYTthumb(id){
+      const res = await fetch(`https://img.youtube.com/vi/${id}/sddefault.jpg`);
+      return res.url;
+    }
+
+    function openOverlay(){
+      ov.style.display = "flex";
+      ov.setAttribute("aria-hidden","false");
+    }
+
+    function closeOverlay(){
+      ov.style.display = "none";
+      ov.setAttribute("aria-hidden","true");
+      yt.src = "";
+      document.getElementById("videoName").textContent = "—";
+      document.getElementById("videoAuthor").textContent = "—";
+      document.getElementById("player").classList.remove("restricted");
+      document.getElementById("ytthumb").src = "";
+    }
+
+    async function openRandom(){
+      setStatus("ищу рандом...");
+      const r = await requestRandomVideo();
+
+      if(!r){
+        setStatus("не получилось получить рандом (сервер/инет).");
+        await statusHandler.set("ошибка рандома", StatusHandler.colors.error);
+        return;
+      }
+
+      // подпись под видео
+      document.getElementById("videoName").textContent = r.VideoName || "без названия";
+      document.getElementById("videoAuthor").textContent = r.VideoAuthorName || "неизвестный автор";
+
+      if(!r.IsEmbeddable){
+        setStatus("это видео нельзя встроить. откроется только на youtube.");
+        const thumb = await getYTthumb(r.Id);
+        document.getElementById("ytthumb").src = thumb;
+        document.getElementById("player").classList.add("restricted");
+        document.getElementById("ytlink-restricted").href = `https://www.youtube.com/watch?v=${r.Id}`;
+      }else{
+        setStatus("успешно загружено!");
+        document.getElementById("player").classList.remove("restricted");
+      }
+
+      yt.src = `https://www.youtube.com/embed/${r.Id}?autoplay=1`;
+      openOverlay();
+    }
+
+    document.getElementById("open").onclick = openRandom;
+    document.getElementById("open2").onclick = openRandom;
+    document.getElementById("closeBtn").onclick = closeOverlay;
+
+    document.getElementById("send").onclick = async () => {
+      const url = document.getElementById("sendurl").value;
+      const id = parseYouTubeVideoId(url);
+
+      if(!id){
+        await statusHandler.set("Invalid URL", StatusHandler.colors.error);
+        setStatus("Invalid URL (юрл инвалид)");
+        return;
+      }
+
+      await statusHandler.set("отправляю...", StatusHandler.colors.info);
+      setStatus("отправляю на сервер...");
+      const res = await requestAddVideo(id);
+
+      if(res.Error === null){
+        setStatus(res.IsEmbeddable ? "отправлено." : "отправлено, но не встраивается (только youtube).");
+        await statusHandler.set("успешно", res.IsEmbeddable ? StatusHandler.colors.ok : StatusHandler.colors.warning);
+      }else if(res.Error === 409){
+        setStatus("Video already exists");
+        await statusHandler.set("уже есть", StatusHandler.colors.error);
+      }else if(res.Error === 400){
+        setStatus("Invalid video ID");
+        await statusHandler.set("неверный id", StatusHandler.colors.error);
+      }else{
+        setStatus("Something went wrong");
+        await statusHandler.set("ошибка", StatusHandler.colors.error);
+      }
+
+      document.getElementById("sendurl").value = "";
+    };
+
+    ov.addEventListener("click", (e) => { if(e.target === ov) closeOverlay(); });
+    document.addEventListener("keydown", (e) => { if(e.key === "Escape") closeOverlay(); });
+  </script>
 </body>
 </html>

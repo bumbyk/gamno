@@ -364,6 +364,7 @@
       backdrop-filter: blur(10px);
 
       color: #ffd6ef;
+      border-radius: 0 0 14px 14px;
     }
 
     .vi-left,
@@ -437,6 +438,13 @@
       background: radial-gradient(circle at 30% 25%, rgba(255, 255, 255, .55), rgba(255, 255, 255, .0) 55%),
         linear-gradient(135deg, rgba(0, 255, 255, .9), rgba(255, 47, 191, .95));
       user-select: none;
+    }
+
+    .avatar-img {
+      width: 98%;
+      height: 98%;
+      object-fit: cover;
+      border-radius: 999px;
     }
 
     #yt {
@@ -770,7 +778,8 @@
           Id: r.id,
           VideoName: r.video_name,
           VideoAuthorName: r.video_author_name,
-          IsEmbeddable: r.is_embeddable
+          IsEmbeddable: r.is_embeddable,
+          ChannelLogoImg: r.logo_url
         };
       } catch (e) {
         console.error(e);
@@ -853,7 +862,7 @@
       return res.url;
     }
 
-    function setVideoMeta(name, author) {
+    function setVideoMeta(name, author, logoUrl = null) {
       const safeName = (name && String(name).trim()) ? String(name).trim() : "без названия";
       const safeAuthor = (author && String(author).trim()) ? String(author).trim() : "неизвестный автор";
 
@@ -864,9 +873,13 @@
       authorEl.title = safeAuthor;
       avatarEl.title = safeAuthor;
 
-      // аватар = первые 1–2 буквы автора
-      const letters = safeAuthor.replace(/[^a-zA-Zа-яА-Я0-9]/g, "").slice(0, 2).toUpperCase();
-      avatarEl.textContent = letters || "??";
+      if (logoUrl) {
+        avatarEl.innerHTML = `<img src="${logoUrl}" class="avatar-img" />`;
+      } else {
+        // аватар = первые 1–2 буквы автора
+        const letters = safeAuthor.replace(/[^a-zA-Zа-яА-Я0-9]/g, "").slice(0, 2).toUpperCase();
+        avatarEl.textContent = letters || "??";
+      }
     }
 
     async function openRandom() {
@@ -878,7 +891,7 @@
         return;
       }
 
-      setVideoMeta(r.VideoName, r.VideoAuthorName);
+      setVideoMeta(r.VideoName, r.VideoAuthorName, r.ChannelLogoImg);
 
       if (!r.IsEmbeddable) {
         setStatus("это видео нельзя встроить. откроется только на youtube.");
@@ -921,7 +934,7 @@
         setVideoMeta(res.VideoName, res.VideoAuthorName);
       } else if (res.Error === 409) {
         setStatus("Video already exists");
-        await statusHandler.set("уже есть", StatusHandler.colors.error);
+        await statusHandler.set("уже есть", StatusHandler.colors.warning);
       } else if (res.Error === 400) {
         setStatus("Invalid video ID");
         await statusHandler.set("неверный id", StatusHandler.colors.error);

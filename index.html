@@ -949,14 +949,15 @@
 
 
     async function grandOpening() {
+      await playFancySound("fancy-sounds/dmf.mp3");
       btnEl = document.getElementById("open");
       btnEl.style.animation = "none";
-      btnEl.style.animation = "openAnimation 1.5s ease-in-out";
+      btnEl.style.animation = "openAnimation 2.5s ease-in-out";
       btnEl.onanimationend = () => {
         btnEl.style.animation = "none";
       }
       //wait for animation to finish
-      await new Promise(resolve => setTimeout(resolve, 1420));
+      await new Promise(resolve => setTimeout(resolve, 2400));
       openRandom();
     }
 

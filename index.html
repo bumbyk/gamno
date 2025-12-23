@@ -343,11 +343,11 @@
 
     .player.restricted .restricted-area .restricted-info-block {
       display: flex;
-      backdrop-filter: blur(10px) grayscale(.5);
+      backdrop-filter: blur(10px) grayscale(.65);
       background: rgba(0, 0, 0, .45);
       border: 1px solid rgba(255, 0, 170, .25);
       border-radius: 14px;
-      max-width: 92%;
+      max-width: 100%;
     }
 
     /* ====== ПОДПИСЬ ПОД ВИДОСОМ (ЮТУБ-СТАЙЛ) ====== */
@@ -527,6 +527,29 @@
       color: #ff9fe8;
       font-size: 12px;
       opacity: .75;
+    }
+
+    @keyframes openAnimation {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+        transition: all 1.5s ease-in-out;
+        overflow: hidden;
+      }
+
+      80% {
+        /* remove scrollbar when expanded */
+        overflow: hidden;
+        transform: scaleX(10) scaleY(20);
+        border-radius: 0;
+        opacity: 1;
+        background-color: #fff;
+      }
+
+      100% {
+        opacity: 0;
+        background-color: #fff;
+      }
     }
 
     /* MOBILE */
@@ -883,6 +906,7 @@
     }
 
     async function openRandom() {
+      playFancySound();
       setStatus("ищу рандом...");
       const r = await requestRandomVideo();
       if (!r) {
@@ -908,9 +932,33 @@
       openOverlay();
     }
 
-    document.getElementById("open").onclick = openRandom;
+    async function playFancySound(customSoundPath = null) {
+      const fancySounds = [
+        "fancy-sounds/f1.mp3",
+        "fancy-sounds/f2.mp3",
+        "fancy-sounds/f3.mp3"
+      ];
+      const soundPath = customSoundPath || fancySounds[Math.floor(Math.random() * fancySounds.length)];
+      const audio = new Audio(soundPath);
+      await audio.play();
+    }
+
+    document.getElementById("open").onclick = grandOpening;
     document.getElementById("open2").onclick = openRandom;
     document.getElementById("closeBtn").onclick = closeOverlay;
+
+
+    async function grandOpening() {
+      btnEl = document.getElementById("open");
+      btnEl.style.animation = "none";
+      btnEl.style.animation = "openAnimation 1.5s ease-in-out";
+      btnEl.onanimationend = () => {
+        btnEl.style.animation = "none";
+      }
+      //wait for animation to finish
+      await new Promise(resolve => setTimeout(resolve, 1420));
+      openRandom();
+    }
 
     document.getElementById("send").onclick = async () => {
       const url = document.getElementById("sendurl").value;

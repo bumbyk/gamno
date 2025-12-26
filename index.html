@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="referrer" content="no-referrer-when-downgrade">
   <link rel="icon" href="favicon-32x32.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <title>гамно</title>
 
   <style>
@@ -552,6 +553,12 @@
       }
     }
 
+    @keyframes newVideoAnimation {
+      0% {
+        transform: scaleY(1);
+      }
+    }
+
     /* MOBILE */
     @media (max-width:900px) {
       .overlay-body {
@@ -785,6 +792,7 @@
     const yt = document.getElementById("yt");
     const statusEl = document.getElementById("status");
     const playerEl = document.getElementById("player");
+    const overlayBodyEl = document.querySelector(".overlay-body");
 
     const nameEl = document.getElementById("videoName");
     const authorEl = document.getElementById("videoAuthor");
@@ -906,7 +914,6 @@
     }
 
     async function openRandom() {
-      playFancySound();
       setStatus("ищу рандом...");
       const r = await requestRandomVideo();
       if (!r) {
@@ -928,18 +935,56 @@
         playerEl.classList.remove("restricted");
       }
 
-      yt.src = `https://www.youtube.com/embed/${r.Id}?autoplay=1`;
+      yt.src = `https://www.youtube.com/embed/${r.Id}?autoplay=1&rel=0&modestbranding=1`;
+      overlayBodyEl.style.animation = "rubberBand";
+      overlayBodyEl.style.animationDuration = "1s";
+      setTimeout(() => {
+        overlayBodyEl.style.animation = "";
+        overlayBodyEl.style.animationDuration = "";
+      }, 1000);
+      setTimeout(() => {
+        playFancySound();
+      }, 500);
       openOverlay();
     }
 
-    async function playFancySound(customSoundPath = null) {
+    let prevSound = ["", 0.0];
+    async function playFancySound(CustomSound = null, CustomVolume = null) {
+
+      const baseDir = "fancy-sounds/";
+
+      // save fancy sounds with volumes
       const fancySounds = [
-        "fancy-sounds/f1.mp3",
-        "fancy-sounds/f2.mp3",
-        "fancy-sounds/f3.mp3"
+        ["f1.mp3", 1],
+        ["f2.mp3", 1],
+        ["f3.mp3", 1],
+        ["ahh.mp3", 0.8],
+        ["applepay.mp3", 1],
+        ["bl.mp3", 1],
+        ["eh.mp3", 1],
+        ["mp.mp3", 0.3],
+        ["rizz.mp3", 1],
       ];
-      const soundPath = customSoundPath || fancySounds[Math.floor(Math.random() * fancySounds.length)];
-      const audio = new Audio(soundPath);
+
+      let sound;
+      if (!CustomSound) {
+        let retries = 0;
+        do {
+          sound = fancySounds[Math.floor(Math.random() * fancySounds.length)];
+          retries++;
+        } while (sound[0] == prevSound[0] && retries < 10);
+        prevSound = sound;
+        console.log("Retries: ", retries);
+      } else {
+        sound = [CustomSound, CustomVolume];
+      }
+      if (CustomVolume) {
+        sound[1] = CustomVolume;
+      }
+
+      console.log("Playing sound: ", sound);
+      const audio = new Audio(baseDir + sound[0]);
+      audio.volume = sound[1];
       await audio.play();
     }
 
@@ -949,7 +994,7 @@
 
 
     async function grandOpening() {
-      await playFancySound("fancy-sounds/dmf.mp3");
+      await playFancySound("dmf.mp3", 0.4);
       btnEl = document.getElementById("open");
       btnEl.style.animation = "none";
       btnEl.style.animation = "openAnimation 2.5s ease-in-out";

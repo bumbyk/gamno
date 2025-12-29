@@ -648,10 +648,28 @@
         max-width: 100%;
       }
     }
+
+    .bg-snow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+    }
+
+    .snow {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   </style>
 </head>
 
 <body>
+  <div class="bg-snow">
+    <img class="snow" src="assets/snow.gif" alt="snow">
+  </div>
   <!-- NAV -->
   <div class="nav">
     <div class="nav-inner">
@@ -994,7 +1012,7 @@
 
 
     async function grandOpening() {
-      await playFancySound("dmf.mp3", 0.4);
+      await playFancySound("dmf.mp3", 0.3);
       btnEl = document.getElementById("open");
       btnEl.style.animation = "none";
       btnEl.style.animation = "openAnimation 2.5s ease-in-out";

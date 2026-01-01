@@ -878,7 +878,7 @@
 
     let lastRequestTime = 0;
 
-    function showAlert(text, bg = "default", timeout = 5000) {
+    function showAlert(text, bg = "default", timeout = 8000) {
 
       console.log(text);
       const div = document.createElement('div');
@@ -1043,9 +1043,24 @@
       setStatus("ищу рандом...");
       const r = await requestRandomVideo();
       if (!r) {
-        setStatus("no connection (сервер/инет).");
-        showAlert("no connection (сервер/инет)", "error");
-        await statusHandler.set("нет рандома", StatusHandler.colors.error);
+        setStatus("нет подключения (сервер/инет).");
+        showAlert("нет подключения (лежит сервер/инет)", "error");
+        await statusHandler.set("нет подключения (сервер/инет)", StatusHandler.colors.error);
+        return;
+      }
+      if (r.Error) {
+        switch (r.Error) {
+          case 429:
+            setStatus("слишком много запросов. попробуйте позже.");
+            showAlert("вы нажимаете на кнопки слишком часто.", "warning");
+            await statusHandler.set("вы отправляете запросы слишком часто", StatusHandler.colors.error);
+            break;
+          default:
+            setStatus("ошибка");
+            showAlert("ошибка: " + r.Error, "error");
+            await statusHandler.set("ошибка: " + r.Error, StatusHandler.colors.error);
+            break;
+        }
         return;
       }
 
